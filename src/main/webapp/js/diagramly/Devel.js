@@ -68,7 +68,9 @@ if (!mxIsElectron && location.protocol !== 'http:')
 		}
 	})();
 }
-			
+
+
+
 mxscript(drawDevUrl + 'js/cryptojs/aes.min.js');
 mxscript(drawDevUrl + 'js/spin/spin.min.js');
 mxscript(drawDevUrl + 'js/deflate/pako.min.js');
@@ -78,17 +80,17 @@ mxscript(drawDevUrl + 'js/sanitizer/sanitizer.min.js');
 mxscript(drawDevUrl + 'js/croppie/croppie.min.js');
 mxscript(drawDevUrl + 'js/rough/rough.min.js');
 
-// Uses grapheditor from devhost
-mxscript(geBasePath +'/Editor.js');
-mxscript(geBasePath +'/EditorUi.js');
-mxscript(geBasePath +'/Sidebar.js');
-mxscript(geBasePath +'/Graph.js');
-mxscript(geBasePath +'/Format.js');
-mxscript(geBasePath +'/Shapes.js');
-mxscript(geBasePath +'/Actions.js');
-mxscript(geBasePath +'/Menus.js');
-mxscript(geBasePath +'/Toolbar.js');
-mxscript(geBasePath +'/Dialogs.js');
+// grapheditor
+mxscript(drawDevUrl +'js/mxgraph/Editor.js');
+mxscript(drawDevUrl +'js/mxgraph/EditorUi.js');
+mxscript(drawDevUrl +'js/mxgraph/Sidebar.js');
+mxscript(drawDevUrl +'js/mxgraph/Graph.js');
+mxscript(drawDevUrl +'js/mxgraph/Format.js');
+mxscript(drawDevUrl +'js/mxgraph/Shapes.js');
+mxscript(drawDevUrl +'js/mxgraph/Actions.js');
+mxscript(drawDevUrl +'js/mxgraph/Menus.js');
+mxscript(drawDevUrl +'js/mxgraph/Toolbar.js');
+mxscript(drawDevUrl +'js/mxgraph/Dialogs.js');
 
 // Loads main classes
 mxscript(drawDevUrl + 'js/diagramly/sidebar/Sidebar.js');
