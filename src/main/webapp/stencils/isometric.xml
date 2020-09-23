@@ -1,0 +1,16 @@
+<shapes name="mxGraph.isometric">
+<shape aspect="variable" h="11" name="Test" strokewidth="inherit" w="19">
+    <connections/>
+    <foreground>
+        <strokecolor color="none"/>
+        <fillcolor color="#292929"/>
+        <path>
+            <move x="0" y="0"/>
+            <line x="19" y="5.5"/>
+            <line x="9.5" y="11"/>
+            <close/>
+        </path>
+        <fill/>
+    </foreground>
+</shape>
+</shapes>
