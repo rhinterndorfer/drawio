@@ -97,10 +97,12 @@ function createWindow (opt = {})
 	mainWindow.loadURL(ourl)
 
 	// Open the DevTools.
+	/* not needed when debugging with vscode
 	if (__DEV__)
 	{
 		mainWindow.webContents.openDevTools()
 	}
+	*/
 
 	mainWindow.on('close', (event) =>
 	{
@@ -719,7 +721,7 @@ app.on('ready', e =>
 	autoUpdater.setFeedURL({
 		provider: 'github',
 		repo: 'drawio-desktop',
-		owner: 'jgraph'
+		owner: 'rhinterndorfer'
 	})
 	
 	if (!disableUpdate && !store.get('dontCheckUpdates'))
