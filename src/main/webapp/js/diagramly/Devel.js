@@ -222,3 +222,47 @@ if (urlParams['orgChartDev'] == '1')
 	mxscript(drawDevUrl + 'js/orgchart/OrgChart.Layout.min.js');
 	mxscript(drawDevUrl + 'js/orgchart/mxOrgChartLayout.js');
 }
+
+// shapes
+mxscript(drawDevUrl + 'shapes/mxAndroid.js');
+mxscript(drawDevUrl + 'shapes/mxArchiMate.js');
+mxscript(drawDevUrl + 'shapes/mxArchiMate3.js');
+mxscript(drawDevUrl + 'shapes/mxArrows.js');
+mxscript(drawDevUrl + 'shapes/mxAtlassian.js');
+mxscript(drawDevUrl + 'shapes/mxAWS3D.js');
+mxscript(drawDevUrl + 'shapes/mxAWS4.js');
+mxscript(drawDevUrl + 'shapes/mxBasic.js');
+mxscript(drawDevUrl + 'shapes/mxBootstrap.js');
+mxscript(drawDevUrl + 'shapes/mxC4.js');
+mxscript(drawDevUrl + 'shapes/mxCabinets.js');
+mxscript(drawDevUrl + 'shapes/mxCisco19.js');
+mxscript(drawDevUrl + 'shapes/mxCiscoSafe.js');
+mxscript(drawDevUrl + 'shapes/mxDFD.js');
+mxscript(drawDevUrl + 'shapes/mxEip.js');
+mxscript(drawDevUrl + 'shapes/mxElectrical.js');
+mxscript(drawDevUrl + 'shapes/mxFloorplan.js');
+mxscript(drawDevUrl + 'shapes/mxFlowchart.js');
+mxscript(drawDevUrl + 'shapes/mxGCP2.js');
+mxscript(drawDevUrl + 'shapes/mxGmdl.js');
+mxscript(drawDevUrl + 'shapes/mxIBM.js');
+mxscript(drawDevUrl + 'shapes/mxInfographic.js');
+mxscript(drawDevUrl + 'shapes/mxKubernetes.js');
+mxscript(drawDevUrl + 'shapes/mxLeanMap.js');
+mxscript(drawDevUrl + 'shapes/mxNetworks.js');
+mxscript(drawDevUrl + 'shapes/mxSysML.js');
+mxscript(drawDevUrl + 'shapes/bpmn/mxBpmnShape2.js');
+mxscript(drawDevUrl + 'shapes/er/mxER.js');
+mxscript(drawDevUrl + 'shapes/ios7/mxIOS7Ui.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupButtons.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupContainers.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupForms.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupGraphics.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupiOS.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupMarkup.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupMisc.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupNavigation.js');
+mxscript(drawDevUrl + 'shapes/mockup/mxMockupText.js');
+mxscript(drawDevUrl + 'shapes/pid2/mxPidInstruments.js');
+mxscript(drawDevUrl + 'shapes/pid2/mxPidMisc.js');
+mxscript(drawDevUrl + 'shapes/pid2/mxPidValves.js');
+mxscript(drawDevUrl + 'shapes/rack/mxRack.js');

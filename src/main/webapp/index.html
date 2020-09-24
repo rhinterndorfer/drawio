@@ -261,6 +261,18 @@
 			// loads asynchronously) are available when the code loaded in Devel.js runs.
 			mxscript(drawDevUrl + 'js/diagramly/Devel.js');
 			mxscript(drawDevUrl + 'js/PostConfig.js');
+
+			// Electron
+			if (mxIsElectron)
+			{
+				mxscript('js/PreConfig.js');
+				mxscript('js/diagramly/DesktopLibrary.js');
+				mxscript('js/diagramly/ElectronApp.js');
+				mxscript('js/extensions.min.js');
+				mxscript('js/stencils.min.js');
+				mxscript('js/PostConfig.js');
+			}
+
 		}
 		else
 		{
@@ -285,19 +297,21 @@
 					mxscript('js/PostConfig.js');
 				}
 			})();
+
+			// Electron
+			if (mxIsElectron)
+			{
+				mxscript('js/PreConfig.js');
+				mxscript('js/diagramly/DesktopLibrary.js');
+				mxscript('js/diagramly/ElectronApp.js');
+				mxscript('js/extensions.min.js');
+				mxscript('js/stencils.min.js');
+				mxscript('js/shapes.min.js');
+				mxscript('js/PostConfig.js');
+			}
 		}
 
-		// Electron
-		if (mxIsElectron)
-		{
-			mxscript('js/PreConfig.js');
-			mxscript('js/diagramly/DesktopLibrary.js');
-			mxscript('js/diagramly/ElectronApp.js');
-			mxscript('js/extensions.min.js');
-			mxscript('js/stencils.min.js');
-			mxscript('js/shapes.min.js');
-			mxscript('js/PostConfig.js');
-		}
+		
 		
 		// Adds basic error handling
 		window.onerror = function()

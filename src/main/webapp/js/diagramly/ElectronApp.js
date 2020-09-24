@@ -110,20 +110,21 @@ mxStencilRegistry.allowEval = false;
 			{
 				try
 				{
-					if (plugins[i].startsWith('/plugins/'))
+					var plugin = plugins[i];
+					if (plugin.startsWith('/plugins/'))
 					{
-						plugins[i] = '.' + plugins[i];
+						plugin = '.' + plugins[i];
 					}
 					//Support old plugins added using file:// workaround
-					else if (!plugins[i].startsWith('file://'))
+					else if (!plugin.startsWith('file://'))
 					{
 						var fs = require('fs');
 						var sysPath = require('path');
-			        	var pluginsFile = sysPath.join(getAppDataFolder(), '/plugins', plugins[i]);
+			        	var pluginsFile = sysPath.join(getAppDataFolder(), '/plugins', plugin);
 			        	
 			        	if (fs.existsSync(pluginsFile))
 			        	{
-			        		plugins[i] = 'file://' + pluginsFile;
+			        		plugin = 'file://' + pluginsFile;
 			        	}
 			        	else
 		        		{
@@ -131,7 +132,7 @@ mxStencilRegistry.allowEval = false;
 		        		}
 					}
 						
-					mxscript(plugins[i]);
+					mxscript(plugin);
 				}
 				catch (e)
 				{

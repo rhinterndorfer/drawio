@@ -313,7 +313,8 @@ App.pluginRegistry = {'4xAKTrabTpTzahoLthkwPNUn': '/plugins/explore.js',
 	'tickets': '/plugins/tickets.js', 'flow': '/plugins/flow.js',
 	'webcola': '/plugins/webcola/webcola.js', 'rnd': '/plugins/random.js',
 	'page': '/plugins/page.js', 'gd': '/plugins/googledrive.js',
-	'tags': '/plugins/tags.js'};
+	'tags': '/plugins/tags.js',
+	'isometric': '/plugins/isometric.js'};
 
 App.publicPlugin = [
 	'ex',
@@ -334,7 +335,8 @@ App.publicPlugin = [
 	'flow',
 	'webcola',
 //	'rnd', 'page', 'gd',
-	'tags'
+	'tags',
+	'isometric'
 ];
 /**
  * Function: authorize
@@ -568,7 +570,7 @@ App.main = function(callback, createUi)
 			{
 				var content = mxUtils.getTextContent(scripts[0]);
 				
-				if (CryptoJS.MD5(content).toString() != '5bf9ec4131db137e247634de78c4ec47')
+				if (CryptoJS.MD5(content).toString() != 'cde7a0df2cbfbcaadfd39a1b2ac27df0')
 				{
 					alert('[Dev] Script change requires update of CSP');
 				}
@@ -1147,6 +1149,7 @@ App.embedModePluginsCount = 0;
 App.loadPlugins = function(plugins, useInclude)
 {
 	EditorUi.debug('Loading plugins', plugins);
+	console.log('Loading plugins', plugins);
 
 	for (var i = 0; i < plugins.length; i++)
 	{
