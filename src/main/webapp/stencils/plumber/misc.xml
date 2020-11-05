@@ -1,0 +1,15 @@
+<shapes name="mxgraph.plumber.misc">
+<shape aspect="variable" h="20" w="20" name="mount" strokewidth="inherit" >
+    <foreground>
+        <path>
+            <move x="0" y="0"/>
+            <line x="20" y="20"/>
+            <close/>
+            <move x="20" y="0"/>
+            <line x="0" y="20"/>
+            <close/>
+        </path>
+        <fillstroke/>
+    </foreground>
+</shape>
+</shapes>

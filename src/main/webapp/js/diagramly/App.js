@@ -314,7 +314,7 @@ App.pluginRegistry = {'4xAKTrabTpTzahoLthkwPNUn': '/plugins/explore.js',
 	'webcola': '/plugins/webcola/webcola.js', 'rnd': '/plugins/random.js',
 	'page': '/plugins/page.js', 'gd': '/plugins/googledrive.js',
 	'tags': '/plugins/tags.js',
-	'isometric': '/plugins/isometric.js'};
+	'plumber': '/plugins/plumber.js'};
 
 App.publicPlugin = [
 	'ex',
@@ -336,7 +336,7 @@ App.publicPlugin = [
 	'webcola',
 //	'rnd', 'page', 'gd',
 	'tags',
-	'isometric'
+	'plumber'
 ];
 /**
  * Function: authorize

@@ -8,3 +8,5 @@ src/main/webapp/js/viewer-static.min.js
 src/main/webapp/js/viewer.min.js
 src/main/webapp/js/app.min.js
 src/main/webapp/js/shapes.min.js
+src/main/webapp/js/extensions.min.js
+src/main/webapp/js/orgchart.min.js
