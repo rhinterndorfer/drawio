@@ -2867,7 +2867,7 @@ var NewDialog = function(editorUi, compact, showName, callback, createOnly, canc
 		{
 			elt.setAttribute('title', tooltip);
 		}
-
+		
 		if (imgUrl != null)
 		{
 			elt.style.backgroundImage = 'url(' + imgUrl + ')';
@@ -2898,7 +2898,7 @@ var NewDialog = function(editorUi, compact, showName, callback, createOnly, canc
 				elt.innerHTML = '<table width="100%" height="100%" style="line-height:1.3em;' + ((uiTheme == 'dark') ? '' : 'background:rgba(255,255,255,0.85);') +
 					'border:inherit;"><tr><td align="center" valign="middle"><span style="display:inline-block;padding:4px 8px 4px 8px;user-select:none;' +
 					'border-radius:3px;background:rgba(255,255,255,0.85);overflow:hidden;text-overflow:ellipsis;max-width:' + (w - 34) + 'px;">' +
-					mxResources.get(title, null, title) + '</span></td></tr></table>';
+					mxUtils.htmlEntities(mxResources.get(title, null, title)) + '</span></td></tr></table>';
 			}
 			
 			var createIt = false;
@@ -2948,7 +2948,7 @@ var NewDialog = function(editorUi, compact, showName, callback, createOnly, canc
 			elt.innerHTML = '<table width="100%" height="100%" style="line-height:1.3em;"><tr>' +
 				'<td align="center" valign="middle"><span style="display:inline-block;padding:4px 8px 4px 8px;user-select:none;' +
 				'border-radius:3px;background:#ffffff;overflow:hidden;text-overflow:ellipsis;max-width:' + (w - 34) + 'px;">' +
-				mxResources.get(title, null, title) + '</span></td></tr></table>';
+				mxUtils.htmlEntities(mxResources.get(title, null, title)) + '</span></td></tr></table>';
 			
 			if (select)
 			{
@@ -8838,7 +8838,7 @@ var EditShapeDialog = function(editorUi, cell, title, w, h)
 	this.container = table;
 };
 
-var CustomDialog = function(editorUi, content, okFn, cancelFn, okButtonText, helpLink, buttonsContent, hideCancel, cancelButtonText)
+var CustomDialog = function(editorUi, content, okFn, cancelFn, okButtonText, helpLink, buttonsContent, hideCancel, cancelButtonText, hideAfterOKFn)
 {
 	var div = document.createElement('div');
 	div.appendChild(content);
@@ -8885,15 +8885,29 @@ var CustomDialog = function(editorUi, content, okFn, cancelFn, okButtonText, hel
 		btns.appendChild(cancelBtn);
 	}
 
-	var okBtn = mxUtils.button(okButtonText || mxResources.get('ok'), function()
+	var okBtn = mxUtils.button(okButtonText || mxResources.get('ok'), mxUtils.bind(this, function()
 	{
-		editorUi.hideDialog();
+		if (!hideAfterOKFn)
+		{
+			editorUi.hideDialog(null, null, this.container);
+		}
 		
 		if (okFn != null)
 		{
-			okFn();
+			var okRet = okFn();
+			
+			if (typeof okRet === 'string')
+			{
+				editorUi.showError(mxResources.get('error'), okRet);
+				return;	
+			}
 		}
-	});
+		
+		if (hideAfterOKFn)
+		{
+			editorUi.hideDialog(null, null, this.container);
+		}
+	}));
 	btns.appendChild(okBtn);
 	
 	okBtn.className = 'geBtn gePrimaryBtn';
@@ -10261,7 +10275,7 @@ AspectDialog.prototype.createViewer = function(container, pageNode, layerId)
 	graph.maxFitScale = null;
 	graph.centerZoom = true;
 	
-	var node = Editor.parseDiagramNode(pageNode); //Handles compressed and non-compressed page node
+	var node = pageNode.nodeName == 'mxGraphModel'? pageNode : Editor.parseDiagramNode(pageNode); //Handles compressed and non-compressed page node
 	
 	if (node != null)
 	{

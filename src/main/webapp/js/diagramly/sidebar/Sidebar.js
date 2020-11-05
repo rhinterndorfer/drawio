@@ -75,7 +75,7 @@
 							  'Media Services', 'Migration', 'Mobile Services', 'Network Content Delivery', 'Security Identity Compliance', 'Storage'];
 	
 	Sidebar.prototype.aws4 = ['Arrows', 'General Resources', 'Illustrations', 'Groups', 'Analytics', 'Application Integration', 'AR VR', 'Cost Management', 'Blockchain', 
-							  'Business Applications', 'EC2 Instance Types', 'Compute', 'Customer Enablement', 'Customer Engagement',
+							  'Business Applications', 'EC2 Instance Types', 'Compute', 'Containers', 'Customer Enablement', 'Customer Engagement',
 							  'Database', 'End User Computing', 'Developer Tools', 'Game Tech', 'Internet of Things', 'IoT Things', 'IoT Resources', 'Machine Learning', 'Management Governance',
 							  'Media Services', 'Migration Transfer', 'Mobile', 'Network Content Delivery', 'Quantum Technologies', 'Robotics', 'Satellite', 'Security Identity Compliance', 'Storage'];
 
@@ -110,6 +110,7 @@
 	 *
 	 */
 	Sidebar.prototype.configuration = [{id: 'general', libs: ['general', 'misc', 'advanced']}, {id: 'uml'}, {id: 'search'}, {id: 'er'},
+									   {id: 'azure2', prefix: 'azure2', libs: ['AI Machine Learning', 'Analytics', 'App Services', 'Azure Stack', 'Azure VMware Solution', 'Blockchain', 'Compute', 'Containers', 'CXP', 'Databases', 'DevOps', 'General', 'Identity', 'Integration', 'Internet of Things', 'Intune', 'IoT', 'Management Governance', 'Migrate', 'Mixed Reality', 'Monitor', 'Networking', 'Other', 'Preview', 'Security', 'Storage', 'Web']},
 	                                   {id: 'ios', prefix: 'ios', libs: [''/*prefix is library*/, '7icons', '7ui']}, 
 	                                   {id: 'android', prefix: 'android', libs: [''/*prefix is library*/]}, {id: 'aws3d'},
 	                                   {id: 'flowchart'}, {id: 'basic'}, {id: 'infographic'}, {id: 'arrows'}, {id: 'arrows2'}, {id: 'lean_mapping'}, {id: 'citrix'}, {id: 'azure'}, {id: 'network'}, {id: 'vvd'}, 
@@ -354,22 +355,58 @@
 		
 		return false;
 	};
-	
+
 	/**
 	 * 
 	 */
-	Sidebar.prototype.showEntries = function(stc, remember, force)
+	Sidebar.prototype.showEntries = function(entries, remember, force)
 	{
-		this.libs = (stc != null && (force || stc.length > 0)) ? stc : ((urlParams['libs'] != null &&
-			urlParams['libs'].length > 0) ? decodeURIComponent(urlParams['libs']) :
-			((mxSettings != null && mxSettings.settings != null) ? mxSettings.getLibraries() :
-			this.defaultEntries));
-		var tmp = this.libs.split(';');
+		var all = [];
 		
-		// Maps library names via the alias table
-		for (var i = 0; i < tmp.length; i++)
+		if (remember)
 		{
-			tmp[i] = this.libAliases[tmp[i]] || tmp[i];
+			mxSettings.setLibraries(entries);
+			mxSettings.save();
+		}
+		
+		if (entries != null && (force || entries.length > 0))
+		{
+			all.push(entries);
+		}
+		else 
+		{
+			var done = false;
+			
+			if (urlParams['libs'] != null && urlParams['libs'].length > 0) 
+			{
+				all.push(decodeURIComponent(urlParams['libs']));
+				done = this.editorUi.getServiceName() == 'draw.io';
+			}
+			
+			// Libs parameter overrides configuration for online app so that
+			// links can be created to show just the specifies libraries
+			if (!done)
+			{
+				if (mxSettings != null && mxSettings.settings != null) 
+				{
+					all.push(mxSettings.getLibraries());
+				}
+				else 
+				{
+					all.push(this.defaultEntries);
+				}
+			}
+		}
+		
+		// Merges array of semicolon separated strings into a single array
+		var temp = all.join(';').split(';');
+		
+		// Resolves aliases and creates lookup
+		var visible = {};
+		
+		for (var i = 0; i < temp.length; i++)
+		{
+			visible[this.libAliases[temp[i]] || temp[i]] = true; 
 		}
 		
 		for (var i = 0; i < this.configuration.length; i++)
@@ -379,7 +416,7 @@
 			{
 				this.showPalettes(this.configuration[i].prefix || '',
 					this.configuration[i].libs || [this.configuration[i].id],
-					mxUtils.indexOf(tmp, this.configuration[i].id) >= 0);
+					visible[this.configuration[i].id] == true);
 			}
 		}
 		
@@ -402,16 +439,10 @@
 							libs.push(entry.id + '.' + k);
 						}
 						
-						this.showPalettes('', libs, mxUtils.indexOf(tmp, entry.id) >= 0);
+						this.showPalettes('', libs, visible[entry.id]);
 					}
 				}
 			}
-		}
-		
-		if (remember)
-		{
-			mxSettings.setLibraries(stc);
-			mxSettings.save();
 		}
 	};
 
@@ -447,14 +478,13 @@
 							      {title: 'AWS19', id: 'aws4', image: IMAGE_PATH + '/sidebar-aws4.png'},
 			            			// TODO: Add isometric containers  		                          
             			          {title: mxResources.get('aws3d'), id: 'aws3d', image: IMAGE_PATH + '/sidebar-aws3d.png'},
-            			          {title: mxResources.get('azure'), id: 'azure', image: IMAGE_PATH + '/sidebar-azure.png'},
+            			          {title: mxResources.get('azure'), id: 'azure2', image: IMAGE_PATH + '/sidebar-azure.png'},
             			          {title: 'Cloud & Enterprise', id: 'mscae', image: IMAGE_PATH + '/sidebar-mscae.png'},
             			          {title: mxResources.get('cisco'), id: 'cisco', image: IMAGE_PATH + '/sidebar-cisco.png'},
             			          {title: 'Cisco19', id: 'cisco19', image: IMAGE_PATH + '/sidebar-cisco19.png'},
             			          {title: 'Cisco Safe', id: 'cisco_safe', image: IMAGE_PATH + '/sidebar-cisco_safe.png'},
             			          {title: 'Cumulus', id: 'cumulus', image: IMAGE_PATH + '/sidebar-cumulus.png'},
             			          {title: 'Citrix', id: 'citrix', image: IMAGE_PATH + '/sidebar-citrix.png'},
-//            			          {title: 'Google Cloud Platform', id: 'gcp2', image: IMAGE_PATH + '/sidebar-gcp2.png'},
             			          {title: 'Google Cloud Platform', id: 'gcp2', image: IMAGE_PATH + '/sidebar-gcp2.png'},
             			          {title: 'IBM', id: 'ibm', image: IMAGE_PATH + '/sidebar-ibm.png'},
             			          {title: 'Kubernetes', id: 'kubernetes', image: IMAGE_PATH + '/sidebar-kubernetes.png'},
@@ -1129,6 +1159,7 @@
 		this.addAWS4Palette();
 		this.addAWS3DPalette();
 		this.addAzurePalette();
+		this.addAzure2Palette();
 		this.addMSCAEPalette();
 		this.addC4Palette();
 		this.addCiscoPalette(cisco, dir);

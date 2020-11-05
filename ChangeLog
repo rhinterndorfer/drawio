@@ -1,3 +1,91 @@
+04-NOV-2020: 13.9.1
+
+- Improves Lucidchart import
+
+04-NOV-2020: 13.9.0
+
+- Disables Trello in IE11
+- Uses mxGraph 4.2.1 beta 24
+
+03-NOV-2020: 13.8.9
+
+- Adds block overflow cell style
+- Uses mxGraph 4.2.1 beta 23
+
+30-OCT-2020: 13.8.8
+
+- Fixes for teams integration
+- Fixes conf cloud caching issue when 3rd party cookies are disabled
+
+29-OCT-2020: 13.8.7
+
+- Fixes hideDialog order issue on pressing OK
+- Fixes native files in Chrome 86
+
+28-OCT-2020: 13.8.6
+
+- Performance improvements for Jira Cloud
+- MS teams integration
+
+27-OCT-2020: 13.8.5
+
+- Fixes possible NPE in Confluence Cloud
+
+27-OCT-2020: 13.8.4
+
+- Performance improvements for Confluence Cloud
+
+26-OCT-2020: 13.8.3
+
+- Gliffy import improvements
+- Updates Spanish translations
+
+24-OCT-2020: 13.8.2
+
+- Lucidchart import improvements
+- Fixes ungrouping action
+- Uses mxGraph 4.2.1 beta 22
+
+20-OCT-2020: 13.8.1
+
+- Lucidchart import improvements
+- Gliffy import improvements
+- Uses mxGraph 4.2.1 beta 21
+
+14-OCT-2020: 13.8.0
+
+- App Engine configuration changes
+- Uses mxGraph 4.2.1 beta 20
+
+08-OCT-2020: 13.7.9
+
+- Fixes script load order for electron
+
+07-OCT-2020: 13.7.8
+
+- Uses mxGraph 4.2.1 beta 19
+- Uses MathJax 2.7.9
+
+30-SEP-2020: 13.7.7
+
+- Updates Finnish translations, credit Arttu Ylhävuori, github.com/areee
+- Updates native File API tokens
+- Lucidchart import improvements
+- Fixes gradient issues in FF
+- Uses mxGraph 4.2.1 beta 18
+
+28-SEP-2020: 13.7.6
+
+- Updates Azure icons
+
+23-SEP-2020: 13.7.5
+
+- Removes document.write for modern browsers
+
+22-SEP-2020: 13.7.4
+
+- Appends splash dialog libs to configured libs
+
 17-SEP-2020: 13.7.3
 
 - Moves viewer to viewer.diagrams.net

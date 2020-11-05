@@ -1153,6 +1153,16 @@ Graph.fileSupport = window.File != null && window.FileReader != null && window.F
 	(window.urlParams == null || urlParams['filesupport'] != '0');
 
 /**
+ * Shortcut for capability check.
+ */
+Graph.translateDiagram = urlParams['translate-diagram'] == '1';
+
+/**
+ * Shortcut for capability check.
+ */
+Graph.diagramLanguage = (urlParams['diagram-language'] != null) ? urlParams['diagram-language'] : mxClient.language;
+
+/**
  * Default size for line jumps.
  */
 Graph.lineJumpsEnabled = true;
@@ -1185,7 +1195,7 @@ Graph.foreignObjectWarningLink = 'https://desk.draw.io/support/solutions/article
 /**
  * Minimum height for table rows.
  */
-Graph.pasteStyles = ['rounded', 'shadow', 'dashed', 'dashPattern', 'fontFamily', 'fontSize', 'fontColor', 'fontStyle',
+Graph.pasteStyles = ['rounded', 'shadow', 'dashed', 'dashPattern', 'fontFamily', 'fontSource', 'fontSize', 'fontColor', 'fontStyle',
 					'align', 'verticalAlign', 'strokeColor', 'strokeWidth', 'fillColor', 'gradientColor', 'swimlaneFillColor',
 					'textOpacity', 'gradientDirection', 'glass', 'labelBackgroundColor', 'labelBorderColor', 'opacity',
 					'spacing', 'spacingTop', 'spacingLeft', 'spacingBottom', 'spacingRight', 'endFill', 'endArrow',
@@ -1947,8 +1957,6 @@ Graph.prototype.init = function(container)
 	};
 	
 	/**
-	 * Function: viewStateChanged
-	 * 
 	 * Overrides to bypass full cell tree validation.
 	 * TODO: Check if this improves performance
 	 */
@@ -1967,8 +1975,6 @@ Graph.prototype.init = function(container)
 	};
 
 	/**
-	 * Function: validate
-	 * 
 	 * Overrides validate to normalize validation view state and pass
 	 * current state to CSS transform.
 	 */
@@ -1996,6 +2002,51 @@ Graph.prototype.init = function(container)
 			this.translate.x = this.graph.currentTranslate.x;
 			this.translate.y = this.graph.currentTranslate.y;
 		}
+	};
+
+	/**
+	 * Overrides function to exclude table cells and rows from groups.
+	 */
+	var graphGetCellsForGroup = mxGraph.prototype.getCellsForGroup;
+	Graph.prototype.getCellsForGroup = function(cells)
+	{
+		cells = graphGetCellsForGroup.apply(this, arguments);
+		var result = [];
+		
+		// Filters selection cells with the same parent
+		for (var i = 0; i < cells.length; i++)
+		{
+			if (!this.isTableRow(cells[i]) &&
+				!this.isTableCell(cells[i]))
+			{
+				result.push(cells[i]);
+			}
+		}
+		
+		return result;
+	};
+	
+	/**
+	 * Overrides function to exclude tables, rows and cells from ungrouping.
+	 */
+	var graphGetCellsForUngroup = mxGraph.prototype.getCellsForUngroup;
+	Graph.prototype.getCellsForUngroup = function(cells)
+	{
+		cells = graphGetCellsForUngroup.apply(this, arguments);
+		var result = [];
+		
+		// Filters selection cells with the same parent
+		for (var i = 0; i < cells.length; i++)
+		{
+			if (!this.isTable(cells[i]) &&
+				!this.isTableRow(cells[i]) &&
+				!this.isTableCell(cells[i]))
+			{
+				result.push(cells[i]);
+			}
+		}
+		
+		return result;
 	};
 
 	/**
@@ -2778,7 +2829,7 @@ Graph.prototype.createLayersDialog = function()
 /**
  * Private helper method.
  */
-Graph.prototype.replacePlaceholders = function(cell, str)
+Graph.prototype.replacePlaceholders = function(cell, str, vars, translate)
 {
 	var result = [];
 	
@@ -2815,8 +2866,16 @@ Graph.prototype.replacePlaceholders = function(cell, str)
 						{
 							if (current.value != null && typeof(current.value) == 'object')
 							{
-								tmp = (current.hasAttribute(name)) ? ((current.getAttribute(name) != null) ?
+								if (Graph.translateDiagram && Graph.diagramLanguage != null)
+								{
+									tmp = current.getAttribute(name + '_' + Graph.diagramLanguage);
+								}
+								
+								if (tmp == null)
+								{
+									tmp = (current.hasAttribute(name)) ? ((current.getAttribute(name) != null) ?
 										current.getAttribute(name) : '') : null;
+								}
 							}
 							
 							current = this.model.getParent(current);
@@ -2826,6 +2885,11 @@ Graph.prototype.replacePlaceholders = function(cell, str)
 					if (tmp == null)
 					{
 						tmp = this.getGlobalVariable(name);
+					}
+					
+					if (tmp == null && vars != null)
+					{
+						tmp = vars[name];
 					}
 				}
 	
@@ -3247,11 +3311,12 @@ Graph.prototype.convertValueToString = function(cell)
 	
 	if (value != null && typeof(value) == 'object')
 	{
+		var result = null;
+		
 		if (this.isReplacePlaceholders(cell) && cell.getAttribute('placeholder') != null)
 		{
 			var name = cell.getAttribute('placeholder');
 			var current = cell;
-			var result = null;
 					
 			while (result == null && current != null)
 			{
@@ -3263,13 +3328,23 @@ Graph.prototype.convertValueToString = function(cell)
 				
 				current = this.model.getParent(current);
 			}
-			
-			return result || '';
 		}
 		else
-		{	
-			return value.getAttribute('label') || '';
+		{
+			var result = null;
+			
+			if (Graph.translateDiagram && Graph.diagramLanguage != null)
+			{
+				result = value.getAttribute('label_' + Graph.diagramLanguage);
+			}
+			
+			if (result == null)
+			{
+				result = value.getAttribute('label') || '';
+			}
 		}
+
+		return result || '';
 	}
 	
 	return mxGraph.prototype.convertValueToString.apply(this, arguments);
@@ -3742,7 +3817,17 @@ Graph.prototype.getTooltipForCell = function(cell)
 	
 	if (mxUtils.isNode(cell.value))
 	{
-		var tmp = cell.value.getAttribute('tooltip');
+		var tmp = null;
+
+		if (Graph.translateDiagram && Graph.diagramLanguage != null)
+		{
+			tmp = cell.value.getAttribute('tooltip_' + Graph.diagramLanguage);
+		}
+		
+		if (tmp == null)
+		{
+			tmp = cell.value.getAttribute('tooltip');
+		}
 		
 		if (tmp != null)
 		{
@@ -6103,7 +6188,7 @@ if (typeof mxVertexHandler != 'undefined')
 		var mxConnectionHandlerCreateTarget = mxConnectionHandler.prototype.isCreateTarget;
 		mxConnectionHandler.prototype.isCreateTarget = function(evt)
 		{
-			return mxEvent.isControlDown(evt) || mxConnectionHandlerCreateTarget.apply(this, arguments);
+			return this.graph.isCloneEvent(evt) || mxConnectionHandlerCreateTarget.apply(this, arguments);
 		};
 
 		// Overrides highlight shape for connection points
@@ -7107,7 +7192,7 @@ if (typeof mxVertexHandler != 'undefined')
 						{
 							// Rotates the size and position in the geometry
 							if (!this.isTable(cell) && !this.isTableRow(cell) &&
-								!this.isTableCell(cell))
+								!this.isTableCell(cell) && !this.isSwimlane(cell))
 							{
 								geo = geo.clone();
 								geo.x += geo.width / 2 - geo.height / 2;
@@ -7341,7 +7426,17 @@ if (typeof mxVertexHandler != 'undefined')
 					}
 					
 					var tmp = cell.value.cloneNode(true);
-					tmp.setAttribute('label', value);
+					
+					if (Graph.translateDiagram && Graph.diagramLanguage != null &&
+						tmp.hasAttribute('label_' + Graph.diagramLanguage))
+					{
+						tmp.setAttribute('label_' + Graph.diagramLanguage, value);
+					}
+					else
+					{
+						tmp.setAttribute('label', value);
+					}
+					
 					value = tmp;
 				}
 
@@ -7446,7 +7541,15 @@ if (typeof mxVertexHandler != 'undefined')
 		 */
 		Graph.prototype.setTooltipForCell = function(cell, link)
 		{
-			this.setAttributeForCell(cell, 'tooltip', link);
+			var key = 'tooltip';
+			
+			if (Graph.translateDiagram && Graph.diagramLanguage != null &&
+				mxUtils.isNode(cell.value) && cell.value.hasAttribute('tooltip_' + Graph.diagramLanguage))
+			{
+				key = 'tooltip_' + Graph.diagramLanguage;
+			}
+			
+			this.setAttributeForCell(cell, key, link);
 		};
 		
 		/**
