@@ -5,10 +5,6 @@
     <title>Flowchart Maker &amp; Online Diagram Software</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Native File System API V2 token for *.draw.io expires 30 Sep 2020 -->
-    <meta http-equiv="origin-trial" content="AuU3GiQBCw/ECJOOY3aK+ypCG+4mO+R1ywGZHwB/tCGOVhjhGZu+UhZ4/qxWi8i3jic5s2ZPffaY4dd0VQktHwYAAABleyJvcmlnaW4iOiJodHRwczovL2RyYXcuaW86NDQzIiwiZmVhdHVyZSI6Ik5hdGl2ZUZpbGVTeXN0ZW0yIiwiZXhwaXJ5IjoxNjAxNDIzOTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=">
-    <!-- Native File System API V2 token for *.diagrams.net expires 30 Sep 2020 -->
-    <meta http-equiv="origin-trial" content="Aijy4tUQ1cAZ5Db/Sf5MzfHolrKmp4WHAwEnB24RP8WPNq8l4umazuReevn2XsNUtiAPfKRw7ECtF7hVAwjYfgcAAABqeyJvcmlnaW4iOiJodHRwczovL2RpYWdyYW1zLm5ldDo0NDMiLCJmZWF0dXJlIjoiTmF0aXZlRmlsZVN5c3RlbTIiLCJleHBpcnkiOjE2MDE0MjM5OTksImlzU3ViZG9tYWluIjp0cnVlfQ==">
     <meta name="Description" content="diagrams.net is free online diagram software for making flowcharts, process diagrams, org charts, UML, ER and network diagrams">
     <meta name="Keywords" content="diagram, online, flow chart, flowchart maker, uml, erd">
     <meta itemprop="name" content="diagrams.net - free flowchart maker and diagrams online">
@@ -144,13 +140,16 @@
 		 */
 		function mxscript(src, onLoad, id, dataAppKey, noWrite)
 		{
-			if (onLoad != null || noWrite)
+			var defer = onLoad == null && !noWrite;
+			
+			if ((urlParams['dev'] != '1' && typeof document.createElement('canvas').getContext === "function") ||
+				onLoad != null || noWrite)
 			{
 				var s = document.createElement('script');
 				s.setAttribute('type', 'text/javascript');
+				s.setAttribute('defer', 'true');
 				s.setAttribute('src', src);
-				var r = false;
-				
+
 				if (id != null)
 				{
 					s.setAttribute('id', id);
@@ -163,6 +162,8 @@
 				
 				if (onLoad != null)
 				{
+					var r = false;
+				
 					s.onload = s.onreadystatechange = function()
 					{
 						if (!r && (!this.readyState || this.readyState == 'complete'))
@@ -228,6 +229,16 @@
 			// ignored
 		}
 
+		var mxScriptsLoaded = false, mxWinLoaded = false;
+		
+		function checkAllLoaded()
+		{
+			if (mxScriptsLoaded && mxWinLoaded)
+			{
+				App.main();				
+			}
+		};
+		
 		var t0 = new Date();
 
 		// Changes paths for local development environment
@@ -260,6 +271,14 @@
 			// required in some browsers to make sure mxClient.js (and the files that it
 			// loads asynchronously) are available when the code loaded in Devel.js runs.
 			mxscript(drawDevUrl + 'js/diagramly/Devel.js');
+			
+			// Electron
+			if (mxIsElectron)
+			{
+				mxscript('js/diagramly/DesktopLibrary.js');
+				mxscript('js/diagramly/ElectronApp.js');
+			}
+			
 			mxscript(drawDevUrl + 'js/PostConfig.js');
 		}
 		else
@@ -273,32 +292,52 @@
 					(hostName.substring(hostName.length - 13, hostName.length) === '.diagrams.net');
 					(hostName.substring(hostName.length - 17, hostName.length) === '.quipelements.com');
 				
-				if (!supportedDomain)
+				function loadAppJS()
 				{
-					mxscript('js/PreConfig.js');
+					mxscript('js/app.min.js', function()
+					{
+						mxScriptsLoaded = true;
+						checkAllLoaded();
+						
+						if (!supportedDomain)
+						{
+							mxscript('js/PostConfig.js');
+						}
+						
+						// Electron
+						if (mxIsElectron)
+						{
+							mxscript('js/diagramly/DesktopLibrary.js', function()
+							{
+								mxscript('js/diagramly/ElectronApp.js', function()
+								{
+									mxscript('js/extensions.min.js', function()
+									{
+										mxscript('js/stencils.min.js', function()
+										{
+											mxscript('js/shapes.min.js', function()
+											{
+												mxscript('js/PostConfig.js');
+											});
+										});
+									});
+								});
+							});
+						}
+					});
+				};
+				
+				if (!supportedDomain || mxIsElectron)
+				{
+					mxscript('js/PreConfig.js', loadAppJS);
 				}
-				
-				mxscript('js/app.min.js');
-				
-				if (!supportedDomain)
+				else
 				{
-					mxscript('js/PostConfig.js');
+					loadAppJS();
 				}
 			})();
 		}
 
-		// Electron
-		if (mxIsElectron)
-		{
-			mxscript('js/PreConfig.js');
-			mxscript('js/diagramly/DesktopLibrary.js');
-			mxscript('js/diagramly/ElectronApp.js');
-			mxscript('js/extensions.min.js');
-			mxscript('js/stencils.min.js');
-			mxscript('js/shapes.min.js');
-			mxscript('js/PostConfig.js');
-		}
-		
 		// Adds basic error handling
 		window.onerror = function()
 		{
@@ -418,7 +457,18 @@ if (navigator.userAgent != null && navigator.userAgent.toLowerCase().
 }
 else
 {
-	App.main();
+	if (urlParams['dev'] != '1' && typeof document.createElement('canvas').getContext === "function")
+	{
+		window.addEventListener('load', function()
+		{
+			mxWinLoaded = true;
+			checkAllLoaded();
+		});
+	}
+	else
+	{
+		App.main();
+	}
 }
 </script>
 </body>

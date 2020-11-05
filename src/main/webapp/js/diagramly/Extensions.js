@@ -15,14 +15,15 @@ LucidImporter = {};
 	
 	var arcSize = 6;
 	var edgeStyle = 'html=1;jettySize=18;';
-	var vertexStyle = 'html=1;whiteSpace=wrap;';
+	var vertexStyle = 'html=1;overflow=block;whiteSpace=wrap;';
 	var labelStyle = 'text;html=1;resizable=0;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;';
 	
-	var c = "fillColor=#036897;strokeColor=#ffffff";
-	var s = "shape=mxgraph.";
-	var ss = "strokeColor=none;shape=mxgraph.";
+	var c = 'fillColor=#036897;strokeColor=#ffffff';
+	var s = 'shape=mxgraph.';
+	var ss = 'strokeColor=none;shape=mxgraph.';
+	var ssAzure = 'verticalLabelPosition=bottom;verticalAlign=top;' + ss;
 	var cs = 'mxCompositeShape';
-	var azur19 = 'aspect=fixed;html=1;points=[];align=center;image;image=img/lib/mscae/';
+	var azur19 = 'aspect=fixed;html=1;points=[];align=center;verticalAlign=top;image;image=img/lib/mscae/';
 	var gcpIcon = 'html=1;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none;shape=mxgraph.gcp2.';
 	var kupIcon = 'html=1;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none;shape=mxgraph.kubernetes.icon;prIcon=';
 	
@@ -65,12 +66,13 @@ LucidImporter = {};
 
 	var styleMap = {
 //Standard
-			'DefaultTextBlockNew': 'text;strokeColor=none;fillColor=none',
-			'DefaultTextBlock': 'text;strokeColor=none;fillColor=none',
+			'DefaultTextBlockNew': 'strokeColor=none;fillColor=none',
+			'DefaultTextBlock': 'strokeColor=none;fillColor=none',
 			'DefaultSquareBlock': '',
+			'RectangleBlock': '',
 			'DefaultNoteBlock': 'shape=note;size=15',
 			'DefaultNoteBlockV2': 'shape=note;size=15',
-			'HotspotBlock': 'strokeColor=none;opacity=50',
+			'HotspotBlock': 'strokeColor=none;fillColor=none',
 			'ImageSearchBlock2': 'shape=image',
 			'UserImage2Block': 'shape=image',
 //Flowchart
@@ -120,8 +122,8 @@ LucidImporter = {};
 			'CrossBlock': 'shape=cross;size=0.6',
 			'CloudBlock': 'ellipse;shape=cloud',
 			'HeartBlock': s + 'basic.heart',
-			'RightArrowBlock': 'shape=singleArrow;arrowWidth=0.5;arrowSize=0.3',
-			'DoubleArrowBlock': 'shape=doubleArrow;arrowWidth=0.5;arrowSize=0.3',
+			'RightArrowBlock': cs,
+			'DoubleArrowBlock': cs,
 			'CalloutBlock': s + 'basic.rectangular_callout',
 			'ShapeCircleBlock': 'ellipse',
 			'ShapePolyStarBlock': s + 'basic.star',
@@ -231,6 +233,7 @@ LucidImporter = {};
 			'UMLPackageBlock': 'shape=folder;tabPosition=left',
 			'UMLConstraintBlock' : cs,
 			'UMLNoteBlock': 'shape=note;size=15',
+			'UMLNoteBlockV2': 'shape=note;size=15',
 			'UMLTextBlock': cs,
 //UML Use Case
 			'UMLActorBlock': 'shape=umlActor;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=nowrap',
@@ -267,12 +270,19 @@ LucidImporter = {};
 //			'UMLControlBlock'NA
 //UML Component
 			'UMLComponentBlock' : 'shape=component;align=left;spacingLeft=36',
-			'UMLNodeBlock' : 'shape=cube;size=12;flipH=1',
+			'UMLComponentBlockV2' : 'shape=component;align=left;spacingLeft=36',
+			'UMLNodeBlock' : 'shape=cube;size=12;flipH=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=5',
+			'UMLNodeBlockV2' : 'shape=cube;size=12;flipH=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=5',
 			'UMLComponentInterfaceBlock' : 'ellipse',
-			'UMLComponentBoxBlock' : cs, //TODO
-//			'UMLAssemblyConnectorBlock' NA
-			'UMLProvidedInterfaceBlock' : 'shape=lollipop;direction=south',
+			'UMLComponentInterfaceBlockV2' : 'ellipse',
+			'UMLComponentBoxBlock' : cs,
+			'UMLComponentBoxBlockV2' : cs,
+			'UMLAssemblyConnectorBlock': cs,
+			'UMLAssemblyConnectorBlockV2': cs,
+			'UMLProvidedInterfaceBlock' : cs,
+			'UMLProvidedInterfaceBlockV2' :cs,
 			'UMLRequiredInterfaceBlock' : 'shape=requires;direction=north',
+			'UMLRequiredInterfaceBlockV2' : 'shape=requires;direction=north',
 			'UMLSwimLaneBlockV2': cs,
 //UML Deployment
 //UML Entity Relationship
@@ -616,225 +626,225 @@ LucidImporter = {};
 //AWS Containers
 			'AWSRoundedRectangleContainerBlock2' : cs,
 //Azure Cloud
-			'ACAccessControlBlock' : ss + 'azure.access_control',
-			'ACAPIAppsBlock' : ss + 'mscae.cloud.api_app',
-			'ACAPIManagementBlock' : ss + 'mscae.cloud.api_management',
-			'ACAppInsightsBlock' : ss + 'mscae.cloud.application_insights',
-			'ACAppServicesBlock' : ss + 'mscae.cloud.app_service',
-			'ACAutoscalingBlock' : ss + 'azure.autoscale',
-			'ACAzureActiveDirectoryBlock' : ss + 'azure.azure_active_directory',
-			'ACAzurealertBlock' : ss + 'azure.azure_alert',
-			'ACAzureAutomationBlock' : ss + 'azure.automation',
-			'ACAzureBatchBlock' : ss + 'mscae.cloud.azure_batch',
-			'ACAzureRedisBlock' : ss + 'azure.azure_cache',
-			'ACAzureFilesBlock' : ss + 'mscae.cloud.azure_files_service',
-			'ACAzureloadbalancerBlock' : ss + 'mscae.cloud.azure_automatic_load_balancer',
-			'ACAzureMarketplaceBlock' : ss + 'azure.azure_marketplace',
-			'ACAzureRightManagementRMSBlock' : ss + 'mscae.cloud.azure_rights_management_rms',
-			'ACAzureSDKBlock' : ss + 'azure.azure_sdk',
-			'ACAzureSearchBlock' : ss + 'mscae.cloud.azure_search',
-			'ACAzureSQLdatabaseBlock' : ss + 'azure.sql_database_sql_azure',
-			'ACAzuresubscriptionBlock' : ss + 'azure.azure_subscription',
-			'ACAzureWebsitesBlock' : ss + 'azure.azure_website',
-			'ACBackupServiceBlock' : ss + 'azure.backup_service',
-			'ACBitbucketcodesourceBlock' : ss + 'azure.bitbucket_code_source',
-			'ACBizTalkServicesBlock' : ss + 'azure.biztalk_services',
-			'ACCloudServiceBlock' : ss + 'azure.cloud_service',
-			'ACCodePlexBlock' : ss + 'azure.codeplex_code_source',
+			'ACAccessControlBlock' : ssAzure + 'azure.access_control',
+			'ACAPIAppsBlock' : ssAzure + 'mscae.cloud.api_app',
+			'ACAPIManagementBlock' : ssAzure + 'mscae.cloud.api_management',
+			'ACAppInsightsBlock' : ssAzure + 'mscae.cloud.application_insights',
+			'ACAppServicesBlock' : ssAzure + 'mscae.cloud.app_service',
+			'ACAutoscalingBlock' : ssAzure + 'azure.autoscale',
+			'ACAzureActiveDirectoryBlock' : ssAzure + 'azure.azure_active_directory',
+			'ACAzurealertBlock' : ssAzure + 'azure.azure_alert',
+			'ACAzureAutomationBlock' : ssAzure + 'azure.automation',
+			'ACAzureBatchBlock' : ssAzure + 'mscae.cloud.azure_batch',
+			'ACAzureRedisBlock' : ssAzure + 'azure.azure_cache',
+			'ACAzureFilesBlock' : ssAzure + 'mscae.cloud.azure_files_service',
+			'ACAzureloadbalancerBlock' : ssAzure + 'mscae.cloud.azure_automatic_load_balancer',
+			'ACAzureMarketplaceBlock' : ssAzure + 'azure.azure_marketplace',
+			'ACAzureRightManagementRMSBlock' : ssAzure + 'mscae.cloud.azure_rights_management_rms',
+			'ACAzureSDKBlock' : ssAzure + 'azure.azure_sdk',
+			'ACAzureSearchBlock' : ssAzure + 'mscae.cloud.azure_search',
+			'ACAzureSQLdatabaseBlock' : ssAzure + 'azure.sql_database_sql_azure',
+			'ACAzuresubscriptionBlock' : ssAzure + 'azure.azure_subscription',
+			'ACAzureWebsitesBlock' : ssAzure + 'azure.azure_website',
+			'ACBackupServiceBlock' : ssAzure + 'azure.backup_service',
+			'ACBitbucketcodesourceBlock' : ssAzure + 'azure.bitbucket_code_source',
+			'ACBizTalkServicesBlock' : ssAzure + 'azure.biztalk_services',
+			'ACCloudServiceBlock' : ssAzure + 'azure.cloud_service',
+			'ACCodePlexBlock' : ssAzure + 'azure.codeplex_code_source',
 //			'ACComputeBlock' NA
-			'ACContentDeliveryNetworkBlock' : ss + 'azure.content_delivery_network',
-			'ACDataFactoryBlock' : ss + 'mscae.cloud.data_factory',
+			'ACContentDeliveryNetworkBlock' : ssAzure + 'azure.content_delivery_network',
+			'ACDataFactoryBlock' : ssAzure + 'mscae.cloud.data_factory',
 //			'ACDataservicesBlock' NA
-			'ACDocumentDBBlock' : ss + 'mscae.cloud.documentdb',
-			'ACDropboxcodesourceBlock' : ss + 'azure.dropbox_code_source',
-			'ACEventsHubBlock' : ss + 'mscae.cloud.event_hubs',
-			'ACExpressRouteBlock' : ss + 'azure.express_route',
-			'ACGitHubBlock' : ss + 'azure.github_code',
-			'ACGitrepositoryBlock' : ss + 'azure.git_repository',
-			'ACHDInsightBlock' : ss + 'mscae.cloud.hdinsight',
-			'ACHealthmonitoringBlock' : ss + 'azure.health_monitoring',
-			'ACHealthyBlock' : ss + 'azure.healthy',
-			'ACHybridConnectionBlock' : ss + 'mscae.cloud.hybrid_connections',
-			'ACBizTalkhybridconnectionBlock' : ss + 'mscae.cloud.hybrid_connection_manager',
-			'ACKeyVaultBlock' : ss + 'mscae.cloud.key_vault',
-			'ACLogicAppBlock' : ss + 'mscae.cloud.logic_app',
-			'ACMachineLearningBlock' : ss + 'mscae.cloud.machine_learning',
-			'ACMediaServicesBlock' : ss + 'azure.media_service',
-			'ACMicrosoftaccountBlock' : ss + 'mscae.cloud.microsoft_account',
-			'ACMicrosoftAzureBlock' : ss + 'mscae.cloud.microsoft_azure',
-			'ACMobileEngagementBlock' : ss + 'mscae.cloud.mobile_engagement',
-			'ACMobileServicesBlock' : ss + 'mscae.cloud.mobile_app',
-			'ACMultiFactorAuthBlock' : ss + 'azure.multi_factor_authentication',
-			'ACMySQLdatabaseBlock' : ss + 'azure.mysql_database',
-			'ACNotificationHubsBlock' : ss + 'azure.notification_hub',
-			'ACNotificationtopicBlock' : ss + 'azure.notification_topic',
-			'ACOperationalInsightsBlock' : ss + 'mscae.cloud.operational_insights',
-			'ACOSimageBlock' : ss + 'azure.operating_system_image',
-			'ACRemoteAppBlock' : ss + 'mscae.cloud.remoteapp',
-			'ACrpdRemotingfileBlock' : ss + 'azure.rdp_remoting_file',
-			'ACSchedulerBlock' : ss + 'azure.scheduler',
-			'ACServiceBusBlock' : ss + 'azure.service_bus',
-			'ACServiceBusQueueBlock' : ss + 'azure.service_bus_queues',
-			'ACServiceBusRelayBlock' : ss + 'azure.service_bus_relay',
-			'ACServiceBusTopicBlock' : ss + 'azure.service_bus_topics_and_subscriptions',
-			'ACServiceEndpointBlock' : ss + 'mscae.cloud.service_endpoint',
-			'ACServicepackageBlock' : ss + 'mscae.cloud.service_package',
-			'ACSiteRecoveryBlock' : ss + 'azure.hyper_v_recovery_manager',
-			'ACSQLdatabasegenericBlock' : ss + 'azure.sql_database',
+			'ACDocumentDBBlock' : ssAzure + 'mscae.cloud.documentdb',
+			'ACDropboxcodesourceBlock' : ssAzure + 'azure.dropbox_code_source',
+			'ACEventsHubBlock' : ssAzure + 'mscae.cloud.event_hubs',
+			'ACExpressRouteBlock' : ssAzure + 'azure.express_route',
+			'ACGitHubBlock' : ssAzure + 'azure.github_code',
+			'ACGitrepositoryBlock' : ssAzure + 'azure.git_repository',
+			'ACHDInsightBlock' : ssAzure + 'mscae.cloud.hdinsight',
+			'ACHealthmonitoringBlock' : ssAzure + 'azure.health_monitoring',
+			'ACHealthyBlock' : ssAzure + 'azure.healthy',
+			'ACHybridConnectionBlock' : ssAzure + 'mscae.cloud.hybrid_connections',
+			'ACBizTalkhybridconnectionBlock' : ssAzure + 'mscae.cloud.hybrid_connection_manager',
+			'ACKeyVaultBlock' : ssAzure + 'mscae.cloud.key_vault',
+			'ACLogicAppBlock' : ssAzure + 'mscae.cloud.logic_app',
+			'ACMachineLearningBlock' : ssAzure + 'mscae.cloud.machine_learning',
+			'ACMediaServicesBlock' : ssAzure + 'azure.media_service',
+			'ACMicrosoftaccountBlock' : ssAzure + 'mscae.cloud.microsoft_account',
+			'ACMicrosoftAzureBlock' : ssAzure + 'mscae.cloud.microsoft_azure',
+			'ACMobileEngagementBlock' : ssAzure + 'mscae.cloud.mobile_engagement',
+			'ACMobileServicesBlock' : ssAzure + 'mscae.cloud.mobile_app',
+			'ACMultiFactorAuthBlock' : ssAzure + 'azure.multi_factor_authentication',
+			'ACMySQLdatabaseBlock' : ssAzure + 'azure.mysql_database',
+			'ACNotificationHubsBlock' : ssAzure + 'azure.notification_hub',
+			'ACNotificationtopicBlock' : ssAzure + 'azure.notification_topic',
+			'ACOperationalInsightsBlock' : ssAzure + 'mscae.cloud.operational_insights',
+			'ACOSimageBlock' : ssAzure + 'azure.operating_system_image',
+			'ACRemoteAppBlock' : ssAzure + 'mscae.cloud.remoteapp',
+			'ACrpdRemotingfileBlock' : ssAzure + 'azure.rdp_remoting_file',
+			'ACSchedulerBlock' : ssAzure + 'azure.scheduler',
+			'ACServiceBusBlock' : ssAzure + 'azure.service_bus',
+			'ACServiceBusQueueBlock' : ssAzure + 'azure.service_bus_queues',
+			'ACServiceBusRelayBlock' : ssAzure + 'azure.service_bus_relay',
+			'ACServiceBusTopicBlock' : ssAzure + 'azure.service_bus_topics_and_subscriptions',
+			'ACServiceEndpointBlock' : ssAzure + 'mscae.cloud.service_endpoint',
+			'ACServicepackageBlock' : ssAzure + 'mscae.cloud.service_package',
+			'ACSiteRecoveryBlock' : ssAzure + 'azure.hyper_v_recovery_manager',
+			'ACSQLdatabasegenericBlock' : ssAzure + 'azure.sql_database',
 //			'ACSQLDatabasePremiumBlock' NA
-			'ACSQLdatasyncBlock' : ss + 'azure.sql_datasync',
-			'ACSQLreportingdeprecatedBlock' : ss + 'azure.sql_reporting',
-			'ACStartuptaskBlock' : ss + 'azure.startup_task',
-			'ACStorageAzureBlock' : ss + 'mscae.cloud.azure_storage',
-			'ACStorageblobBlock' : ss + 'azure.storage_blob',
-			'ACStoragequeueBlock' : ss + 'azure.storage_queue',
-			'ACStoragetableBlock' : ss + 'azure.storage_table',
-			'ACStorSimpleBlock' : ss + 'azure.storsimple',
-			'ACStreamAnalyticsBlock' : ss + 'mscae.cloud.stream_analytics',
-			'ACTrafficManagerBlock' : ss + 'azure.traffic_manager',
-			'ACAlienBlock' : ss + 'azure.unidentified_code_object',
-			'ACVHDBlock' : ss + 'azure.vhd',
-			'ACVHDdatadiskBlock' : ss + 'azure.vhd_data_disk',
-			'ACVirtualmachineBlock' : ss + 'azure.virtual_machine',
-			'ACVirtualmachinecontainerBlock' : ss + 'mscae.cloud.virtual_machine_container',
-			'ACVirtualnetworkBlock' : ss + 'azure.virtual_network',
-			'ACVisualStudioOnlineBlock' : ss + 'azure.visual_studio_online',
-			'ACVMsymbolonlyBlock' : ss + 'azure.virtual_machine_feature',
-			'ACWebJobsBlock' : ss + 'mscae.cloud.webjobs',
-			'ACWebroleBlock' : ss + 'azure.web_role',
-			'ACWebrolesBlock' : ss + 'azure.web_roles',
-			'ACWorkaccountBlock' : ss + 'mscae.cloud.work_account',
-			'ACWorkerroleBlock' : ss + 'azure.worker_role',
-			'ACWorkerrolesBlock' : ss + 'azure.worker_roles',
-			'ADNSBlock' : ss + 'mscae.cloud.azure_dns',
+			'ACSQLdatasyncBlock' : ssAzure + 'azure.sql_datasync',
+			'ACSQLreportingdeprecatedBlock' : ssAzure + 'azure.sql_reporting',
+			'ACStartuptaskBlock' : ssAzure + 'azure.startup_task',
+			'ACStorageAzureBlock' : ssAzure + 'mscae.cloud.azure_storage',
+			'ACStorageblobBlock' : ssAzure + 'azure.storage_blob',
+			'ACStoragequeueBlock' : ssAzure + 'azure.storage_queue',
+			'ACStoragetableBlock' : ssAzure + 'azure.storage_table',
+			'ACStorSimpleBlock' : ssAzure + 'azure.storsimple',
+			'ACStreamAnalyticsBlock' : ssAzure + 'mscae.cloud.stream_analytics',
+			'ACTrafficManagerBlock' : ssAzure + 'azure.traffic_manager',
+			'ACAlienBlock' : ssAzure + 'azure.unidentified_code_object',
+			'ACVHDBlock' : ssAzure + 'azure.vhd',
+			'ACVHDdatadiskBlock' : ssAzure + 'azure.vhd_data_disk',
+			'ACVirtualmachineBlock' : ssAzure + 'azure.virtual_machine',
+			'ACVirtualmachinecontainerBlock' : ssAzure + 'mscae.cloud.virtual_machine_container',
+			'ACVirtualnetworkBlock' : ssAzure + 'azure.virtual_network',
+			'ACVisualStudioOnlineBlock' : ssAzure + 'azure.visual_studio_online',
+			'ACVMsymbolonlyBlock' : ssAzure + 'azure.virtual_machine_feature',
+			'ACWebJobsBlock' : ssAzure + 'mscae.cloud.webjobs',
+			'ACWebroleBlock' : ssAzure + 'azure.web_role',
+			'ACWebrolesBlock' : ssAzure + 'azure.web_roles',
+			'ACWorkaccountBlock' : ssAzure + 'mscae.cloud.work_account',
+			'ACWorkerroleBlock' : ssAzure + 'azure.worker_role',
+			'ACWorkerrolesBlock' : ssAzure + 'azure.worker_roles',
+			'ADNSBlock' : ssAzure + 'mscae.cloud.azure_dns',
 //			'AGatewayBlock' NA
-			'ACLoadBalancerBlock' : ss + 'mscae.cloud.azure_load_balancer_feature',
-			'ACResourceGroupBlock' : ss + 'mscae.cloud.resource_group',
-			'ACVPNGatewayBlock' : ss + 'mscae.cloud.vpn_gateway',
+			'ACLoadBalancerBlock' : ssAzure + 'mscae.cloud.azure_load_balancer_feature',
+			'ACResourceGroupBlock' : ssAzure + 'mscae.cloud.resource_group',
+			'ACVPNGatewayBlock' : ssAzure + 'mscae.cloud.vpn_gateway',
 //Azure Enterprise
-			'AEActiveDirectoryFSPBlock' : ss + 'mscae.enterprise.d',
-			'AEADFSBlock' : ss + 'mscae.enterprise.ad_fs',
-			'AEAndroidPhoneBlock' : ss + 'mscae.enterprise.android_phone',
-			'AEappblankfortextBlock' : ss + 'mscae.enterprise.application_blank',
-			'AEAppGenericBlock' : ss + 'mscae.enterprise.app_generic',
-			'AEAppserverBlock' : ss + 'mscae.enterprise.application_server',
-			'AEBackuplocalBlock' : ss + 'mscae.enterprise.backup_local',
-			'AEBackuponlineBlock' : ss + 'mscae.enterprise.backup_online',
-			'AECalendarBlock' : ss + 'mscae.general.calendar',
-			'AECertificateBlock' : ss + 'azure.certificate',
-			'AEClientAppBlock' : ss + 'mscae.enterprise.client_application',
-			'AECloudBlock' : ss + 'mscae.enterprise.internet',
-			'AEClusterserverBlock' : ss + 'mscae.enterprise.cluster_server',
-			'AECodefileBlock' : ss + 'azure.code_file',
-			'AEConnectorsBlock' : ss + 'mscae.enterprise.connectors',
-			'AEDatabasegenericBlock' : ss + 'mscae.enterprise.database_generic',
-			'AEDatabaseserverBlock' : ss + 'mscae.enterprise.database_server',
-			'AEDatabasesyncBlock' : ss + 'mscae.enterprise.database_synchronization',
-			'AEDeviceBlock' : ss + 'mscae.enterprise.device',
-			'AEDirectaccessBlock' : ss + 'mscae.enterprise.direct_access_feature',
-			'AEDocumentBlock' : ss + 'mscae.enterprise.document',
-			'AEDomaincontrollerBlock' : ss + 'mscae.enterprise.domain_controller',
-			'AEEnterpriseBuildingBlock' : ss + 'azure.enterprise',
-			'AEFilegeneralBlock' : ss + 'azure.file',
-			'AEFilterBlock' : ss + 'mscae.enterprise.filter',
-			'AEFirewallBlock' : ss + 'mscae.enterprise.firewall',
-			'AEFolderBlock' : ss + 'mscae.enterprise.folder',
-			'AEGatewayBlock' : ss + 'mscae.enterprise.gateway',
-			'AEGenericcodeBlock' : ss + 'azure.code_file',
-			'AEGraphBlock' : ss + 'mscae.general.graph',
-			'AEHealthmonitoringBlock' : ss + 'azure.health_monitoring',
-			'AEHealthyBlock' : ss + 'azure.healthy',
-			'AEImportgenericBlock' : ss + 'mscae.enterprise.import_generic',
-			'AEInternetBlock' : ss + 'mscae.enterprise.internet',
-			'AEKeyboardBlock' : ss + 'mscae.enterprise.keyboard',
-			'AEKeypermissionsBlock' : ss + 'mscae.enterprise.key_permissions',
-			'AELaptopcomputerBlock' : ss + 'azure.laptop',
-			'AELoadbalancerBlock' : ss + 'azure.load_balancer_generic',
-			'AELoadTestingBlock' : ss + 'mscae.enterprise.load_testing',
-			'AELockprotectedBlock' : ss + 'mscae.enterprise.lock',
-			'AELockunprotectedBlock' : ss + 'mscae.enterprise.lock_unlocked',
-			'AEMaintenanceBlock' : ss + 'mscae.enterprise.maintenance',
-			'AEManagementconsoleBlock' : ss + 'mscae.enterprise.management_console',
-			'AEMessageBlock' : ss + 'azure.message',
-			'AEMonitorBlock' : ss + 'azure.computer',
-			'AEMonitorrunningappsBlock' : ss + 'mscae.enterprise.monitor_running_apps',
-			'AEMouseBlock' : ss + 'mscae.enterprise.mouse',
-			'AENetworkcardBlock' : ss + 'mscae.enterprise.network_card',
-			'AENotallowedBlock' : ss + 'mscae.general.not_allowed',
-			'AEPerformanceBlock' : ss + 'mscae.enterprise.performance',
-			'AEPerformancemonitorBlock' : ss + 'mscae.enterprise.performance_monitor',
-			'AEPhoneBlock' : ss + 'azure.mobile',
-			'AEPlugandplayBlock' : ss + 'mscae.enterprise.plug_and_play',
-			'AEPowershellscriptfileBlock' : ss + 'azure.powershell_file',
-			'AEProtocolstackBlock' : ss + 'mscae.enterprise.protocol_stack',
-			'AEQueuegeneralBlock' : ss + 'azure.queue_generic',
-			'AERMSconnectorBlock' : ss + 'mscae.enterprise.rms_connector',
-			'AERouterBlock' : ss + 'mscae.enterprise.router',
-			'AEScriptfileBlock' : ss + 'azure.script_file',
-			'AESecurevirtualmachineBlock' : ss + 'mscae.enterprise.secure_virtual_machine',
-			'AEServerbladeBlock' : ss + 'azure.server',
-			'AEServerdirectoryBlock' : ss + 'mscae.enterprise.server_directory',
-			'AEServerfarmBlock' : ss + 'mscae.enterprise.server_farm',
-			'AEServergenericBlock' : ss + 'mscae.enterprise.server_generic',
-			'AEServerrackBlock' : ss + 'azure.server_rack',
-			'AESettingsBlock' : ss + 'mscae.enterprise.settings',
-			'AESharedfolderBlock' : ss + 'mscae.enterprise.shared_folder',
-			'AESmartcardBlock' : ss + 'mscae.enterprise.smartcard',
-			'AEStorageBlock' : ss + 'mscae.enterprise.storage',
-			'AETableBlock' : ss + 'mscae.enterprise.table',
-			'AETabletBlock' : ss + 'azure.tablet',
-			'AEToolBlock' : ss + 'mscae.enterprise.tool',
-			'AETunnelBlock' : ss + 'mscae.general.tunnel',
-			'AEUnhealthyBlock' : ss + 'mscae.enterprise.unhealthy',
-			'AEUSBBlock' : ss + 'mscae.enterprise.usb',
-			'AEUserBlock' : ss + 'azure.user',
-			'AEVideoBlock' : ss + 'mscae.general.video',
-			'AEVirtualmachineBlock' : ss + 'azure.virtual_machine_feature',
-			'AEWebBlock' : ss + 'mscae.enterprise.web',
-			'AEWebserverBlock' : ss + 'mscae.enterprise.web_server',
-			'AEWindowsserverBlock' : ss + 'mscae.enterprise.windows_server',
-			'AEWirelessconnectionBlock' : ss + 'mscae.enterprise.wireless_connection',
-			'AEWorkstationclientBlock' : ss + 'mscae.enterprise.workstation_client',
-			'AEXMLwebserviceBlock' : ss + 'mscae.enterprise.xml_web_service',
-			'AGSAudioBlock' : ss + 'mscae.general.audio',
-			'AGSBugBlock' : ss + 'mscae.general.bug',
-			'AGSCablesettopTVboxBlock' : ss + 'mscae.general.cable_settop_tv_box',
-			'AGSCalendarBlock' : ss + 'mscae.general.calendar',
-			'AGSChartBlock' : ss + 'mscae.general.chart',
-			'AGSCheckmarkSuccessBlock' : ss + 'mscae.general.checkmark',
-			'AGSContinousCycleCircleBlock' : ss + 'mscae.general.continuous_cycle',
-			'AGSCrossoutFailureBlock' : ss + 'mscae.general.crossout',
-			'AGSCutandpasteBlock' : ss + 'mscae.general.cut_and_paste',
-			'AGSFolderBlock' : ss + 'mscae.enterprise.folder',
-			'AGSGamecontrollerBlock' : ss + 'mscae.general.game_controller',
-			'AGSGearsBlock' : ss + 'mscae.general.gears',
-			'AGSGraphBlock' : ss + 'mscae.general.graph',
-			'AGSLikeBlock' : ss + 'mscae.general.like',
-			'AGSNotallowedBlock' : ss + 'mscae.general.not_allowed',
-			'AGSSliderbarhorizontalBlock' : ss + 'mscae.general.slider_bar_horizontal',
-			'AGSSliderbarvertBlock' : ss + 'mscae.general.slider_bar_vertical',
-			'AGSTasklistorBacklogBlock' : ss + 'mscae.general.task_list',
-			'AGSTasksBlock' : ss + 'mscae.general.tasks',
-			'AGSTunnelBlock' : ss + 'mscae.general.tunnel',
-			'AGSUserBlock' : ss + 'azure.user',
-			'AGSVideoBlock' : ss + 'mscae.general.video',
+			'AEActiveDirectoryFSPBlock' : ssAzure + 'mscae.enterprise.d',
+			'AEADFSBlock' : ssAzure + 'mscae.enterprise.ad_fs',
+			'AEAndroidPhoneBlock' : ssAzure + 'mscae.enterprise.android_phone',
+			'AEappblankfortextBlock' : ssAzure + 'mscae.enterprise.application_blank',
+			'AEAppGenericBlock' : ssAzure + 'mscae.enterprise.app_generic',
+			'AEAppserverBlock' : ssAzure + 'mscae.enterprise.application_server',
+			'AEBackuplocalBlock' : ssAzure + 'mscae.enterprise.backup_local',
+			'AEBackuponlineBlock' : ssAzure + 'mscae.enterprise.backup_online',
+			'AECalendarBlock' : ssAzure + 'mscae.general.calendar',
+			'AECertificateBlock' : ssAzure + 'azure.certificate',
+			'AEClientAppBlock' : ssAzure + 'mscae.enterprise.client_application',
+			'AECloudBlock' : ssAzure + 'mscae.enterprise.internet',
+			'AEClusterserverBlock' : ssAzure + 'mscae.enterprise.cluster_server',
+			'AECodefileBlock' : ssAzure + 'azure.code_file',
+			'AEConnectorsBlock' : ssAzure + 'mscae.enterprise.connectors',
+			'AEDatabasegenericBlock' : ssAzure + 'mscae.enterprise.database_generic',
+			'AEDatabaseserverBlock' : ssAzure + 'mscae.enterprise.database_server',
+			'AEDatabasesyncBlock' : ssAzure + 'mscae.enterprise.database_synchronization',
+			'AEDeviceBlock' : ssAzure + 'mscae.enterprise.device',
+			'AEDirectaccessBlock' : ssAzure + 'mscae.enterprise.direct_access_feature',
+			'AEDocumentBlock' : ssAzure + 'mscae.enterprise.document',
+			'AEDomaincontrollerBlock' : ssAzure + 'mscae.enterprise.domain_controller',
+			'AEEnterpriseBuildingBlock' : ssAzure + 'azure.enterprise',
+			'AEFilegeneralBlock' : ssAzure + 'azure.file',
+			'AEFilterBlock' : ssAzure + 'mscae.enterprise.filter',
+			'AEFirewallBlock' : ssAzure + 'mscae.enterprise.firewall',
+			'AEFolderBlock' : ssAzure + 'mscae.enterprise.folder',
+			'AEGatewayBlock' : ssAzure + 'mscae.enterprise.gateway',
+			'AEGenericcodeBlock' : ssAzure + 'azure.code_file',
+			'AEGraphBlock' : ssAzure + 'mscae.general.graph',
+			'AEHealthmonitoringBlock' : ssAzure + 'azure.health_monitoring',
+			'AEHealthyBlock' : ssAzure + 'azure.healthy',
+			'AEImportgenericBlock' : ssAzure + 'mscae.enterprise.import_generic',
+			'AEInternetBlock' : ssAzure + 'mscae.enterprise.internet',
+			'AEKeyboardBlock' : ssAzure + 'mscae.enterprise.keyboard',
+			'AEKeypermissionsBlock' : ssAzure + 'mscae.enterprise.key_permissions',
+			'AELaptopcomputerBlock' : ssAzure + 'azure.laptop',
+			'AELoadbalancerBlock' : ssAzure + 'azure.load_balancer_generic',
+			'AELoadTestingBlock' : ssAzure + 'mscae.enterprise.load_testing',
+			'AELockprotectedBlock' : ssAzure + 'mscae.enterprise.lock',
+			'AELockunprotectedBlock' : ssAzure + 'mscae.enterprise.lock_unlocked',
+			'AEMaintenanceBlock' : ssAzure + 'mscae.enterprise.maintenance',
+			'AEManagementconsoleBlock' : ssAzure + 'mscae.enterprise.management_console',
+			'AEMessageBlock' : ssAzure + 'azure.message',
+			'AEMonitorBlock' : ssAzure + 'azure.computer',
+			'AEMonitorrunningappsBlock' : ssAzure + 'mscae.enterprise.monitor_running_apps',
+			'AEMouseBlock' : ssAzure + 'mscae.enterprise.mouse',
+			'AENetworkcardBlock' : ssAzure + 'mscae.enterprise.network_card',
+			'AENotallowedBlock' : ssAzure + 'mscae.general.not_allowed',
+			'AEPerformanceBlock' : ssAzure + 'mscae.enterprise.performance',
+			'AEPerformancemonitorBlock' : ssAzure + 'mscae.enterprise.performance_monitor',
+			'AEPhoneBlock' : ssAzure + 'azure.mobile',
+			'AEPlugandplayBlock' : ssAzure + 'mscae.enterprise.plug_and_play',
+			'AEPowershellscriptfileBlock' : ssAzure + 'azure.powershell_file',
+			'AEProtocolstackBlock' : ssAzure + 'mscae.enterprise.protocol_stack',
+			'AEQueuegeneralBlock' : ssAzure + 'azure.queue_generic',
+			'AERMSconnectorBlock' : ssAzure + 'mscae.enterprise.rms_connector',
+			'AERouterBlock' : ssAzure + 'mscae.enterprise.router',
+			'AEScriptfileBlock' : ssAzure + 'azure.script_file',
+			'AESecurevirtualmachineBlock' : ssAzure + 'mscae.enterprise.secure_virtual_machine',
+			'AEServerbladeBlock' : ssAzure + 'azure.server',
+			'AEServerdirectoryBlock' : ssAzure + 'mscae.enterprise.server_directory',
+			'AEServerfarmBlock' : ssAzure + 'mscae.enterprise.server_farm',
+			'AEServergenericBlock' : ssAzure + 'mscae.enterprise.server_generic',
+			'AEServerrackBlock' : ssAzure + 'azure.server_rack',
+			'AESettingsBlock' : ssAzure + 'mscae.enterprise.settings',
+			'AESharedfolderBlock' : ssAzure + 'mscae.enterprise.shared_folder',
+			'AESmartcardBlock' : ssAzure + 'mscae.enterprise.smartcard',
+			'AEStorageBlock' : ssAzure + 'mscae.enterprise.storage',
+			'AETableBlock' : ssAzure + 'mscae.enterprise.table',
+			'AETabletBlock' : ssAzure + 'azure.tablet',
+			'AEToolBlock' : ssAzure + 'mscae.enterprise.tool',
+			'AETunnelBlock' : ssAzure + 'mscae.general.tunnel',
+			'AEUnhealthyBlock' : ssAzure + 'mscae.enterprise.unhealthy',
+			'AEUSBBlock' : ssAzure + 'mscae.enterprise.usb',
+			'AEUserBlock' : ssAzure + 'azure.user',
+			'AEVideoBlock' : ssAzure + 'mscae.general.video',
+			'AEVirtualmachineBlock' : ssAzure + 'azure.virtual_machine_feature',
+			'AEWebBlock' : ssAzure + 'mscae.enterprise.web',
+			'AEWebserverBlock' : ssAzure + 'mscae.enterprise.web_server',
+			'AEWindowsserverBlock' : ssAzure + 'mscae.enterprise.windows_server',
+			'AEWirelessconnectionBlock' : ssAzure + 'mscae.enterprise.wireless_connection',
+			'AEWorkstationclientBlock' : ssAzure + 'mscae.enterprise.workstation_client',
+			'AEXMLwebserviceBlock' : ssAzure + 'mscae.enterprise.xml_web_service',
+			'AGSAudioBlock' : ssAzure + 'mscae.general.audio',
+			'AGSBugBlock' : ssAzure + 'mscae.general.bug',
+			'AGSCablesettopTVboxBlock' : ssAzure + 'mscae.general.cable_settop_tv_box',
+			'AGSCalendarBlock' : ssAzure + 'mscae.general.calendar',
+			'AGSChartBlock' : ssAzure + 'mscae.general.chart',
+			'AGSCheckmarkSuccessBlock' : ssAzure + 'mscae.general.checkmark',
+			'AGSContinousCycleCircleBlock' : ssAzure + 'mscae.general.continuous_cycle',
+			'AGSCrossoutFailureBlock' : ssAzure + 'mscae.general.crossout',
+			'AGSCutandpasteBlock' : ssAzure + 'mscae.general.cut_and_paste',
+			'AGSFolderBlock' : ssAzure + 'mscae.enterprise.folder',
+			'AGSGamecontrollerBlock' : ssAzure + 'mscae.general.game_controller',
+			'AGSGearsBlock' : ssAzure + 'mscae.general.gears',
+			'AGSGraphBlock' : ssAzure + 'mscae.general.graph',
+			'AGSLikeBlock' : ssAzure + 'mscae.general.like',
+			'AGSNotallowedBlock' : ssAzure + 'mscae.general.not_allowed',
+			'AGSSliderbarhorizontalBlock' : ssAzure + 'mscae.general.slider_bar_horizontal',
+			'AGSSliderbarvertBlock' : ssAzure + 'mscae.general.slider_bar_vertical',
+			'AGSTasklistorBacklogBlock' : ssAzure + 'mscae.general.task_list',
+			'AGSTasksBlock' : ssAzure + 'mscae.general.tasks',
+			'AGSTunnelBlock' : ssAzure + 'mscae.general.tunnel',
+			'AGSUserBlock' : ssAzure + 'azure.user',
+			'AGSVideoBlock' : ssAzure + 'mscae.general.video',
 // Azure VMS			
-			'AVMActiveDirectoryVMBlock' : 'shape=mxgraph.mscae.vm.active_directory;strokeColor=none',
-			'AVMActiveDirectoryVMmultiBlock' : 'shape=mxgraph.mscae.vm.active_directory_multi;strokeColor=none',
-			'AVMAppServerVMBlock' : 'shape=mxgraph.mscae.vm.application_server;strokeColor=none',
-			'AVMAppServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.application_server_multi;strokeColor=none',
-			'AVMDatabaseServerVMBlock' : 'shape=mxgraph.mscae.vm.database_server;strokeColor=none',
-			'AVMDatabaseServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.database_server_multi;strokeColor=none',
-			'AVMDirectoryServerVMBlock' : 'shape=mxgraph.mscae.vm.directory_server;strokeColor=none',
-			'AVMDirectoryServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.directory_server_multi;strokeColor=none',
-			'AVMDomainServerVMBlock' : 'shape=mxgraph.mscae.vm.domain_server;strokeColor=none',
-			'AVMDomainServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.domain_server_multi;strokeColor=none',
-			'AVMFileServerVMBlock' : 'shape=mxgraph.mscae.vm.file_server;strokeColor=none',
-			'AVMFileServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.file_server_multi;strokeColor=none',
-			'AVMWebServerVMBlock' : 'shape=mxgraph.mscae.vm.web_server;strokeColor=none',
-			'AVMWebServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.web_server_multi;strokeColor=none',
-			'AVMWindowsServerVMBlock' : 'shape=mxgraph.mscae.vm.windows_server;strokeColor=none',
-			'AVMWindowsServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.windows_server_multi;strokeColor=none',
+			'AVMActiveDirectoryVMBlock' : 'shape=mxgraph.mscae.vm.active_directory;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMActiveDirectoryVMmultiBlock' : 'shape=mxgraph.mscae.vm.active_directory_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMAppServerVMBlock' : 'shape=mxgraph.mscae.vm.application_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMAppServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.application_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMDatabaseServerVMBlock' : 'shape=mxgraph.mscae.vm.database_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMDatabaseServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.database_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMDirectoryServerVMBlock' : 'shape=mxgraph.mscae.vm.directory_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMDirectoryServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.directory_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMDomainServerVMBlock' : 'shape=mxgraph.mscae.vm.domain_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMDomainServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.domain_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMFileServerVMBlock' : 'shape=mxgraph.mscae.vm.file_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMFileServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.file_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMWebServerVMBlock' : 'shape=mxgraph.mscae.vm.web_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMWebServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.web_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMWindowsServerVMBlock' : 'shape=mxgraph.mscae.vm.windows_server;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
+			'AVMWindowsServerVMmultiBlock' : 'shape=mxgraph.mscae.vm.windows_server_multi;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=none',
 // Azure 2019
 			'AccessReviewAzure2019': azur19 + 'Access_Review.svg',
 			'ActiveDirectoryConnectHealthAzure2019': azur19 + 'Active_Directory_Health_Monitoring.svg',
@@ -3746,70 +3756,224 @@ LucidImporter = {};
 			//'TimelineBlock' : cs,
 			//'TimelineMilestoneBlock' : cs,
 			//'TimelineIntervalBlock' : cs,
-			'MinimalTextBlock' : 'strokeColor=none',
+			'MinimalTextBlock' : 'strokeColor=none;fillColor=none',
 //Freehand			
-			'FreehandBlock' : cs
+			'FreehandBlock' : cs,
+//ExtShapes
+			'ExtShapeLaptopBlock': ss + 'citrix.laptop_2;verticalLabelPosition=bottom;verticalAlign=top',
+			'ExtShapeServerBlock': ss + 'citrix.tower_server;verticalLabelPosition=bottom;verticalAlign=top',
+			'ExtShapeCloudBlock': ss + 'citrix.cloud;verticalLabelPosition=bottom;verticalAlign=top',
+			'ExtShapeUserBlock': ss + 'aws3d.end_user;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#073763',
+			'ExtShapeWorkstationLCDBlock': ss + 'veeam.3d.workstation;verticalLabelPosition=bottom;verticalAlign=top',
 	};
 	
 	// actual code start
 	//TODO This can be optimized more
-	function convertTxt2Html(txt, m)
+	function convertTxt2Html(txt, srcM)
 	{
-		var nlPos = [], p = -1, html = '';
+		var blockStyles = {'a': true, 'il': true, 'ir': true, 'mt': true, 'mb': true, 'p': true, 't': true, 'l': true};
+		var nonBlockStyles = {'lk': true, 's': true, 'c': true, 'b': true, 'fc': true, 'i': true, 'u': true};
 
-		while ((p = txt.indexOf('\n', p + 1)) > -1)
-		{
-			nlPos.push(p + 1);
-		}
-
-		m.sort(function(a, b)
+		srcM.sort(function(a, b)
 		{
 			return a.s - b.s;
 		});
-
-		var sMap = {}, ends = [];
-
-		for (var i = 0; i < m.length; i++) //TODO Using newlines to mark the end of blocks without end has some issues 
+		
+		var m = srcM.filter(function(m) 
+		{ 
+			return nonBlockStyles[m.n];
+		});
+		
+		var globalStyles = srcM.filter(function(m)
 		{
-			var item = m[i];
-			
-			if (sMap[item.s] == null)
-			{
-				for (var j = 0; j < nlPos.length; j++)
-				{
-					if (nlPos[j] > item.s)
-					{
-						sMap[item.s] = nlPos[j];
-						break;
-					}
-				}
-
-				if (sMap[item.s] == null)
-				{
-					sMap[item.s] = txt.length;
-				}
-			}
-
-			if (item.e == null)
-			{
-				item.e = sMap[item.s];
-			}
-
-			ends.push(item);
+			return blockStyles[m.n];
+		});
+		
+		//Add missing block that defauls to center
+		var newlines = [0], nl = 0;
+		
+		while ((nl = txt.indexOf('\n', nl)) > 0)
+		{
+			nl++;
+			newlines.push(nl);
 		}
+		
+		var expectedS = 0;
+		
+		for (var i = 0; i < globalStyles.length; i++)
+		{
+			if (globalStyles[i].s > newlines[expectedS])
+			{
+				globalStyles.splice(i, 0, {s: newlines[expectedS], n: 'a', v: 'center'});
+			}
+			else
+			{
+				while(i < globalStyles.length && globalStyles[i].s == newlines[expectedS])
+				{
+					i++
+				}
+				
+				i--; //Since loop will increment again
+			}
+			
+			expectedS++;
+		}
+		
+		if (newlines[expectedS] != null)
+		{
+			globalStyles.push({s: newlines[expectedS], n: 'a', v: 'center'});
+		}
+		
+		var html = '', ends = m.slice();
 
 		ends.sort(function(a, b)
 		{
 			return a.e - b.e;
 		});
 
-		var i = 0, j = 0, curStyles = {}, openTags = [], openTagsCount = [], listActive = false, listType, listItemActive = false;
+		var i = 0, j = 0, k = 0, curStyles = {}, curBlockStyles = {}, openTags = [], openTagsCount = [], 
+			openBlockTags = [], blockActive = false, listActive = false, listType;
 		
-		function startTag(styles, newBlock)
+		function startBlockTag(styles)
 		{
 			var str = '';
-			var tagCount = 0;
 			var t = styles['t'];
+
+			var l = styles['l'] || {};
+			
+			if (t != null && (listActive == false || listActive != t.v || listType != l.v))
+			{
+				if (listActive)
+				{
+					str += endBlockTag(true);
+				}
+				
+				listActive = t.v;
+				listType = l.v;
+				
+				if (t.v == 'ul')
+				{
+					str += '<ul ';
+					openBlockTags.push('ul');
+				}
+				else
+				{
+					str += '<ol ';
+					openBlockTags.push('ol');
+				}
+				
+				str += 'style="margin: 0px; padding: 10px;list-style-position: inside; list-style-type:';
+				
+				if (t.v == 'hl')
+				{
+					str += 'upper-roman';
+				}
+				else
+				{
+					switch(l.v)
+					{
+						case 'auto':
+							str += 'disc';
+							break;
+						case 'inv': //Approx
+							str += 'circle';
+							break;
+						case 'disc': 
+							str += 'circle';
+							break;
+						case 'trib': //Approx
+							str += 'square';
+							break;
+						case 'square':
+							str += 'square';
+							break;	
+						case 'dash': //Approx
+							str += 'square';
+							break;	
+						case 'heart': //Approx
+							str += 'disc';
+							break;
+						default:
+							str += 'decimal';					
+					}
+				}
+				
+				str += '">';
+			}
+			else if (t == null)
+			{
+				if (listActive)
+				{
+					str += endBlockTag(true);
+					listActive = false;
+				}
+
+				str += '<div style="';
+				openBlockTags.push('div');
+			}
+
+			if (t != null)
+			{
+				str += '<li style="text-align:' + (styles['a']? styles['a'].v : 'center') + '">';
+				openBlockTags.push('li');
+				str += '<span style="';
+				openBlockTags.push('span');
+			}
+			
+			if (!listActive)
+			{
+				var tmp = styles['a']? styles['a'].v : 'center';
+				var jc = tmp;
+				
+				if (tmp == 'left')
+				{
+					jc = 'flex-start';
+				}
+				else if (tmp == 'right')
+				{
+					jc = 'flex-end';
+				}
+				str += 'display: flex; font-size: 0; line-height: 1; align-items: baseline; justify-content: ' + jc + '; text-align: ' + tmp + ';';
+			}
+			
+			if (styles['il'])
+			{
+				str += 'margin-left: ' + Math.max(0, Math.round(styles['il'].v * scale - (listActive? 28 : 0))) + 'px;';
+			}
+
+			if (styles['ir'])
+			{
+				str += 'margin-right: ' + Math.round(styles['ir'].v * scale) + 'px;';
+			}
+
+			if (styles['mt'])
+			{
+				str += 'margin-top: ' + Math.round(styles['mt'].v * scale) + 'px;';
+			}
+
+			if (styles['mb'])
+			{
+				str += 'margin-bottom: ' + Math.round(styles['mb'].v * scale) + 'px;';
+			}
+
+			str += '">';
+			
+			if (!listActive)
+			{
+				str += '<span>';
+				openBlockTags.push('span');
+			}
+			
+			return str;
+		};
+
+		
+		function startTag(styles)
+		{
+			if (Object.keys(styles).length == 0) return '';
+			
+			var str = '';
+			var tagCount = 0;
 
 			if (styles['lk'])
 			{
@@ -3823,112 +3987,11 @@ LucidImporter = {};
 				}
 			}
 			
-			if (newBlock)
-			{
-				var l = styles['l'] || {};
-				
-				if (t != null && (listActive == false || listActive != t.v || listType != l.v))
-				{
-					if (listActive)
-					{
-						str += endTag();
-					}
-					
-					listActive = t.v;
-					listType = l.v;
-					
-					if (t.v == 'ul')
-					{
-						str += '<ul ';
-						openTags.push('ul');
-					}
-					else
-					{
-						str += '<ol ';
-						openTags.push('ol');
-					}
-					
-					openTagsCount.push(1);
-					str += 'style="margin: 0px; text-align:' + (styles['a']? styles['a'].v : 'left') + '; list-style-type:';
-					
-					if (t.v == 'hl')
-					{
-						str += 'upper-roman';
-					}
-					else
-					{
-						switch(l.v)
-						{
-							case 'auto':
-								str += 'disc';
-								break;
-							case 'inv': //Approx
-								str += 'circle';
-								break;
-							case 'disc': 
-								str += 'circle';
-								break;
-							case 'trib': //Approx
-								str += 'square';
-								break;
-							case 'square':
-								str += 'square';
-								break;	
-							case 'dash': //Approx
-								str += 'square';
-								break;	
-							case 'heart': //Approx
-								str += 'disc';
-								break;
-							default:
-								str += 'decimal';					
-						}
-					}
-					
-					str += '">';
-				}
-				else if (t == null)
-				{
-					if (listActive)
-					{
-						str += endTag();
-						listActive = false;
-					}
+			str += '<span style="';
+			openTags.push('span');
+			tagCount++;
 
-					str += '<div style="';
-					openTags.push('div');
-					tagCount++;
-				}
-			}
-			else
-			{
-				if (listActive && !listItemActive)
-				{
-					str += endTag();
-					listActive = false;
-				}
-				
-				str += '<span style="';
-				openTags.push('span');
-				tagCount++;
-			}
-
-			if (newBlock && t != null)
-			{
-				listItemActive = true;
-				str += '<li>';
-				openTags.push('li');
-				tagCount++;
-				
-				str += '<span style="';
-				openTags.push('span');
-				tagCount++;
-			}
-
-			if (styles['s'])
-			{
-				str += 'font-size:' + Math.round(styles['s'].v * scale) + 'px;';
-			}
+			str += 'font-size:' + (styles['s']? Math.floor(styles['s'].v * scale) : defaultFontSize) + 'px;';
 
 			if (styles['c'])
 			{
@@ -3961,33 +4024,29 @@ LucidImporter = {};
 				str += 'text-decoration: underline;';
 			}
 
-			if (!listActive)
-			{
-				str += 'text-align: ' + (styles['a']? styles['a'].v : 'center') + ';';
-			}
-			
-			if (styles['il'])
-			{
-				str += 'margin-left: ' + Math.round(styles['il'].v * scale - (listActive? 21 : 0)) + 'px;';
-			}
-
-			if (styles['ir'])
-			{
-				str += 'margin-right: ' + Math.round(styles['ir'].v * scale) + 'px;';
-			}
-
-			if (styles['mt'])
-			{
-				str += 'margin-top: ' + Math.round(styles['mt'].v * scale) + 'px;';
-			}
-
-			if (styles['mb'])
-			{
-				str += 'margin-bottom: ' + Math.round(styles['mb'].v * scale) + 'px;';
-			}
-
 			str += '">'
 			openTagsCount.push(tagCount);
+
+			return str;
+		};
+
+		function endBlockTag(force)
+		{
+			var str = '';
+			
+			do
+			{
+				var tag = openBlockTags.pop();
+				
+				if (!force && listActive && (tag == 'ul' || tag == 'ol'))
+				{
+					openBlockTags.push(tag);
+					break;
+				}
+				
+				str += '</' + tag + '>';
+			}
+			while(openBlockTags.length > 0);
 
 			return str;
 		};
@@ -3997,9 +4056,9 @@ LucidImporter = {};
 			var str = txt? txt.substring(curS, curE) : '';
 
 			//TODO Check this is always the case. Most of the time this is correct, also, the empty tag should be removed
-			if (str == '\n')
+			if (listActive)
 			{
-				str = '';
+				str = str.trim();
 			}
 			
 			str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -4011,68 +4070,117 @@ LucidImporter = {};
 				for (var i = 0; i < count; i++) 
 				{
 					var tag = openTags.pop();
-					
-					if (tag == 'li')
-					{
-						listItemActive = false;
-					}
-					
 					str += '</' + tag + '>';
 				}
 			}
 			while(all && openTags.length > 0);
 
 			return str;
-		}
+		};
 		
-		var curS = 0, curE = 0;
+		var curS = 0, curE = 0, maxE = txt.length, firstBlock = true;
 		
-		while(i >= j && (i < m.length || j < ends.length))
+		while (k < globalStyles.length || firstBlock)
 		{
-			var s = m[i], e = ends[j];
-
-			if (s && e && s.s < e.e) //s can be null when all starts are used, e ends after s BUT sometimes there are errors in the file
+			firstBlock = false;
+			
+			if (k < globalStyles.length)
 			{
-				curS = s.s;
-				var newBlock = false;
-
-				if (curS - curE > 0)
+				var bs = globalStyles[k], curBS = globalStyles[k].s;
+							
+				if (blockActive)
 				{
-					html += startTag(curStyles, newBlock) + endTag(txt, curE, curS); 
+					curBlockStyles = {};
+					html += endTag(txt, maxE, curS, true); //End any open tag
+					curS = maxE;
+					html += endBlockTag(); 
+				}
+		
+				while(bs != null && bs.s == curBS)
+				{
+					curBlockStyles[bs.n] = bs;
+					bs = globalStyles[++k];
 				}
 				
-				while(s != null && s.s == curS)
+				if (bs != null)
 				{
-					//TODO alignment ('a') sometimes introduce unnecessary new lines. Maybe use newline to define block elements
-					if (s.n == 'a' || s.n == 'il' || s.n == 'ir' || s.n == 'mt' || s.n == 'mb' || s.n == 't')
+					maxE = bs.s;
+				}
+				else
+				{
+					maxE = txt.length;
+				}
+				
+				html += startBlockTag(curBlockStyles);
+				
+				if (blockActive)
+				{
+					html += startTag(curStyles);
+				}
+				
+				blockActive = true;
+			}
+			
+			while(i >= j && (i < m.length || j < ends.length))
+			{
+				var s = m[i], e = ends[j];
+	
+				if (s && e && s.s < e.e) //s can be null when all starts are used, e ends after s BUT sometimes there are errors in the file
+				{
+					if (s.s > maxE) break;
+					curS = s.s;
+	
+					if (curS - curE > 0)
 					{
-						newBlock = true;
+						//NOTE: After the fix in end where we add dummy start and end, this shouldn't be called
+						//End any open tag and add remaining text with current style 
+						html += startTag(curStyles) + endTag(txt, curE, curS); 
 					}
 					
-					curStyles[s.n] = s;
-					s = m[++i];
+					while(s != null && s.s == curS)
+					{
+						curStyles[s.n] = s;
+						s = m[++i];
+					}
+					
+					html += startTag(curStyles);
 				}
-				
-				html += startTag(curStyles, newBlock);
-			}
-			else if (e)
-			{
-				curE = e.e;
-
-				do
+				else if (e)
 				{
-					delete curStyles[e.n];
-					e = ends[++j];
+					if (e.e > maxE) break;
+					curE = e.e;
+	
+					do
+					{
+						delete curStyles[e.n];
+						e = ends[++j];
+					}
+					while(e != null && e.e == curE);
+					
+					html += endTag(txt, curS, curE);
+					curS = curE;
+					
+					//Next start should be immidiately after this end or we add a dummy one
+					if (openTagsCount.length == 0 && (s == null || s.s != curE))
+					{
+						m.splice(i, 0, {s: curE, n: 'dummy', v: ''});
+						ends.splice(j, 0, {e: s? s.s : maxE, n: 'dummy', v: ''});
+					}
 				}
-				while(e != null && e.e == curE);
-				
-				html += endTag(txt, curS, curE);
-				curS = curE;
+				else
+				{
+					break;
+				}
 			}
 		}
 		
 		html += endTag(null, null, null, true); //End any open tag
-
+		
+		if (blockActive)
+		{
+			html += endBlockTag(true); 
+		}
+					
 		return html;
 	};
 	
@@ -4132,6 +4240,7 @@ LucidImporter = {};
 		}
 		
 		// TODO: Convert text object to HTML. One case is covered. Is there others?
+		// TODO: HTML text conversion looks stable now, maybe convert all using html?
 		if (text != null)
 		{
 			if (text.t != null)
@@ -4145,7 +4254,7 @@ LucidImporter = {};
 				{
 					for (var i = 0; i < m.length; i++)
 					{
-						if (m[i].s > 0)
+						if (m[i].s > 0 || (m[i].e != null && m[i].e < txt.length) || m[i].n == 't')
 						{
 							isLastLblHTML = true;
 							break;
@@ -4232,7 +4341,7 @@ LucidImporter = {};
 	
 	function getLabelStyle(properties, noLblStyle)
 	{
-		var style = (noLblStyle? (hasStyle(style, 'overflow')? '' : 'overflow=width;') + (hasStyle(style, 'html')? '' : 'html=1;') : 
+		var style = 'whiteSpace=wrap;' + (noLblStyle? 'overflow=block;html=1;fontSize=' + defaultFontSize + ';' : 
 				getFontSize(properties) +
 				getFontColor(properties) + 
 				getFontStyle(properties) +
@@ -4257,9 +4366,11 @@ LucidImporter = {};
 			s = ';';
 		}
 		
-		s +=	
-		  (noLblStyle? (hasStyle(style, 'overflow')? '' : 'overflow=width;') + (hasStyle(style, 'html')? '' : 'html=1;') : 
-			addStyle(mxConstants.STYLE_FONTSIZE, style, properties, action, cell) +			
+		s += 'whiteSpace=wrap;' + 
+		  (noLblStyle? (hasStyle(style, 'overflow')? '' : 'overflow=block;') + 
+			(hasStyle(style, 'html')? '' : 'html=1;') + 'fontSize=' + defaultFontSize + ';' 
+			:
+			addStyle(mxConstants.STYLE_FONTSIZE, style, properties, action, cell) +		
 			addStyle(mxConstants.STYLE_FONTCOLOR, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_FONTSTYLE, style, properties, action, cell) +		
 			addStyle(mxConstants.STYLE_ALIGN, style, properties, action, cell) +			
@@ -4267,7 +4378,7 @@ LucidImporter = {};
 			addStyle(mxConstants.STYLE_SPACING_RIGHT, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_SPACING_TOP, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_SPACING_BOTTOM, style, properties, action, cell)
-		  ) +			
+		  ) +	
 			addStyle(mxConstants.STYLE_SPACING, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_VERTICAL_ALIGN, style, properties, action, cell) +			
 			addStyle(mxConstants.STYLE_STROKECOLOR, style, properties, action, cell) +			
@@ -4382,7 +4493,7 @@ LucidImporter = {};
 					{
 						isV = true;
 						
-						return 'fontSize=' + Math.round(currM.v * scale) + ';';
+						return 'fontSize=' + Math.floor(currM.v * scale) + ';';
 					}
 				}
 				i++;
@@ -4814,7 +4925,7 @@ LucidImporter = {};
 			{
 				if (properties.Rounding > 0)
 				{
-					return 'rounded=1;absoluteArcSize=1;arcSize=' + properties.Rounding * 0.6 + ';';
+					return 'rounded=1;absoluteArcSize=1;arcSize=' + Math.round(properties.Rounding * 0.6) + ';';
 				}
 			}
 //			else if (properties.Rounding == null)
@@ -4843,6 +4954,7 @@ LucidImporter = {};
 			{
 				deg += 90;
 				cell.geometry.rotate90();
+				cell.geometry.isRotated = true;
 				h = false;
 			}
 			else if (mxUtils.indexOf(rccw, action.Class) >= 0)
@@ -4902,7 +5014,14 @@ LucidImporter = {};
 
 	function getColor(color)
 	{
-		return color? color.substring(0, 7) : null;
+		var clr = color? color.substring(0, 7) : null;
+		
+		if (clr && clr.charAt(0) != '#' && clr.charAt(0).toLowerCase() != 'r')
+		{
+			clr = '#' + clr;
+		}
+		
+		return clr;
 	}
 	
 	function getOpacity2(color, style)
@@ -5002,7 +5121,11 @@ LucidImporter = {};
 		{
 			imgUrl = properties.ImageFillProps.url;
 		}
-		
+		else if (properties.FillColor && properties.FillColor.url)
+		{
+			imgUrl = properties.FillColor.url;
+		}
+					
 		if (imgUrl != null)
 		{
 			if (LucidImporter.imgSrcRepl != null)
@@ -5102,12 +5225,12 @@ LucidImporter = {};
 					else if (tmp.substring(0, 5) == 'date:')
 					{
 						// LATER: Convert more date masks
-						tmp = 'date{' + tmp.substring(5).replace(/MMMM/g, 'mmmm').replace(/YYYY/g, 'yyyy') + '}';
+						tmp = 'date{' + tmp.substring(5).replace(/MMMM/g, 'mmmm').replace(/MM/g, 'mm').replace(/YYYY/g, 'yyyy') + '}';
 					}
 					else if (tmp.substring(0, 16) == 'lastModifiedTime')
 					{
 						// LATER: Convert more date masks
-						tmp = tmp.replace(/MMMM/g, 'mmmm').replace(/YYYY/g, 'yyyy');
+						tmp = tmp.replace(/MMMM/g, 'mmmm').replace(/MM/g, 'mm').replace(/YYYY/g, 'yyyy');
 					}
 					else if (tmp.substring(0, 9) == 'i18nDate:')
 					{
@@ -5158,6 +5281,11 @@ LucidImporter = {};
 			{
 				cell.style += s + ';';
 			}
+			else if (!cell.edge)
+			{
+				console.log('No mapping found for: ' + a.Class);
+				LucidImporter.hasUnknownShapes = true;
+			}
 			
 			var p = (a.Properties != null) ? a.Properties : a;
 
@@ -5174,7 +5302,7 @@ LucidImporter = {};
 				
 				addCustomData(cell, p, graph);
 				
-				if (p.Title && p.Text)
+				if (p.Title && p.Text && a.Class.substr(0, 8) != 'ExtShape')
 				{
 					var geo = cell.geometry;
 					var title = new mxCell(convertText(p.Title), new mxGeometry(0, geo.height,geo.width, 10), 'strokeColor=none;fillColor=none;');
@@ -5210,14 +5338,7 @@ LucidImporter = {};
 						}
 						else if (p.Shape == 'elbow')
 						{
-							if (p.Endpoint1.Block != null && p.Endpoint2.Block != null)
-							{
-								cell.style += 'edgeStyle=orthogonalEdgeStyle;';
-							}
-							else
-							{
-								cell.style += 'edgeStyle=elbowEdgeStyle;';
-							}
+							cell.style += 'edgeStyle=orthogonalEdgeStyle;';
 						}
 						else if (p.Endpoint1.Block != null && p.Endpoint2.Block != null)
 						{
@@ -5229,6 +5350,11 @@ LucidImporter = {};
 							}
 						}
 					}
+					
+					if (p.LineJumps || LucidImporter.globalProps.LineJumps)
+					{
+						cell.style += 'jumpStyle=arc;';
+					}
 
 					if (p.Endpoint1.Style != null)
 					{
@@ -5238,6 +5364,8 @@ LucidImporter = {};
 						}
 						else
 						{
+							LucidImporter.hasUnknownShapes = true;
+							
 							if (window.console)
 							{
 								console.log('Unknown endpoint style: ' + p.Endpoint1.Style);
@@ -5253,6 +5381,8 @@ LucidImporter = {};
 						}
 						else
 						{
+							LucidImporter.hasUnknownShapes = true;
+							
 							if (window.console)
 							{
 								console.log('Unknown endpoint style: ' + p.Endpoint2.Style);
@@ -5278,32 +5408,63 @@ LucidImporter = {};
 					}
 					
 					// Inserts implicit or explicit control points for loops
-					var implicitY = false;
+					var implicitY = false, implicitX = false;
 					
-					if (p.ElbowPoints == null && p.Endpoint1.Block != null &&
-						p.Endpoint1.Block == p.Endpoint2.Block)
+					if ((cell.geometry.points == null || cell.geometry.points.length == 0) && 
+						p.Endpoint1.Block != null && p.Endpoint1.Block == p.Endpoint2.Block &&
+						source != null && target != null)
 					{
-						if (p.ElbowControlPoints == null && source != null && target != null)
 						{
 							var exit = new mxPoint(Math.round(source.geometry.x + source.geometry.width * p.Endpoint1.LinkX),
 								Math.round(source.geometry.y + source.geometry.height * p.Endpoint1.LinkY));
 							var entry = new mxPoint(Math.round(target.geometry.x + target.geometry.width * p.Endpoint2.LinkX),
 								Math.round(target.geometry.y + target.geometry.height * p.Endpoint2.LinkY));
-							dx = (exit.x == entry.x) ? 20 : 0;
-							dy = (exit.y == entry.y) ? 0 : 0;
+							dx = (exit.x == entry.x) ? (Math.abs(exit.x - source.geometry.x) < source.geometry.width / 2? -20 : 20) : 0;
+							dy = (exit.y == entry.y) ? (Math.abs(exit.y - source.geometry.y) < source.geometry.height / 2? -20 : 20) : 0;
 							
 							var p1 = new mxPoint(exit.x + dx, exit.y + dy), p2 = new mxPoint(entry.x + dx, entry.y + dy);
 							p1.generated = true;
 							p2.generated = true;
 							cell.geometry.points = [p1, p2];
-							implicitX = (exit.y == entry.y);
+							implicitX = (exit.y == entry.y); //TODO Check these implicit variables effect
 							implicitY = (exit.x == entry.x);
 						}
 					}
+
+					// Anchor points and arrows					
+					var p1, p2;
 					
-					// Anchor points and arrows
-					updateEndpoint(cell, p.Endpoint1, true, implicitY);
-					updateEndpoint(cell, p.Endpoint2, false, implicitY);
+					if (source == null || !source.geometry.isRotated) //TODO Rotate the endpoint instead of ignoring it
+					{
+						p1 = updateEndpoint(cell, p.Endpoint1, true, implicitY);
+					}
+					
+					if (source != null && p1 != null)
+					{
+						if (source.stylePoints == null)
+						{
+							source.stylePoints = [];
+						}
+						
+						source.stylePoints.push(p1);
+						LucidImporter.stylePointsSet.add(source);
+					}
+					
+					if (target == null || !target.geometry.isRotated) //TODO Rotate the endpoint instead of ignoring it
+					{
+						p2 = updateEndpoint(cell, p.Endpoint2, false, implicitY);
+					}
+					
+					if (target != null && p2 != null)
+					{
+						if (target.stylePoints == null)
+						{
+							target.stylePoints = [];
+						}
+						
+						target.stylePoints.push(p2);
+						LucidImporter.stylePointsSet.add(target);
+					}
 				}
 			}
 		}
@@ -5482,9 +5643,17 @@ LucidImporter = {};
 		{
 			if (endpoint.LinkX != null && endpoint.LinkY != null)
 			{
+				endpoint.LinkX = Math.round(endpoint.LinkX * 1000) / 1000;
+				endpoint.LinkY = Math.round(endpoint.LinkY * 1000) / 1000;
 				cell.style += ((!ignoreX) ? ((source) ? 'exitX' : 'entryX') + '=' + endpoint.LinkX + ';' : '') +
 					((!ignoreY) ? (((source) ? 'exitY' : 'entryY') + '=' + endpoint.LinkY + ';') : '') +
-					((source) ? 'exitPerimeter' : 'entryPerimeter') + '=1;';
+					((source) ? 'exitPerimeter' : 'entryPerimeter') + '=0;'; //perimeter as 0 works with both cases better
+				
+				if (endpoint.Inside)
+				{
+					
+					return '[' + endpoint.LinkX + ',' + endpoint.LinkY + ',0]';
+				}
 			}
 		}
 	};
@@ -5609,6 +5778,20 @@ LucidImporter = {};
 						queue.push(obj);
 					}
 				}
+				
+				if (g.Generators != null)
+				{
+					for (var key in g.Generators)
+					{
+						//TODO We don't support any generators currently, so probably we should mark any generator as unknow shape
+						if (g.Generators[key].ClassName == 'OrgChart2018')
+						{
+							LucidImporter.hasUnknownShapes = true;
+							console.log('Lucid diagram has an Org Chart!');
+							//createOrgChart(obj, graph, lookup, queue);
+						}
+					}
+				}
 			}
 			else
 			{
@@ -5628,6 +5811,8 @@ LucidImporter = {};
 					{
 						if (obj.GeneratorData.p.ClassName == 'OrgChart2018')
 						{
+							LucidImporter.hasUnknownShapes = true;
+							console.log('Lucid diagram has an Org Chart!');
 							//createOrgChart(obj, graph, lookup, queue);
 						}
 					}
@@ -5794,6 +5979,12 @@ LucidImporter = {};
 				}
 			}
 
+			LucidImporter.stylePointsSet.forEach(function(v)
+			{
+				v.style = 'points=[' + v.stylePoints.join(',') + '];' + v.style;
+				delete v.stylePoints;
+			});
+			
 			if (!noSelection)
 				graph.setSelectionCells(select);
 		}
@@ -5978,6 +6169,9 @@ LucidImporter = {};
 	{
 		LucidImporter.stencilsMap = {}; //Reset stencils cache
 		LucidImporter.imgSrcRepl = imgSrcRepl; //Use LucidImporter object to store the map since it is used deep inside
+		LucidImporter.stylePointsSet = new Set();
+		LucidImporter.globalProps = {};
+		LucidImporter.hasUnknownShapes = false;
 		var xml = ['<?xml version=\"1.0\" encoding=\"UTF-8\"?>', '<mxfile>'];
 		
 		// Extracts and sorts all pages
@@ -5995,6 +6189,8 @@ LucidImporter = {};
 						addStencil(key.substr(8), obj.Properties[key]);
 					}
 				}
+				
+				LucidImporter.globalProps = obj.Properties;
 			}
 			
 			for (var id in obj.Pages)
@@ -6348,7 +6544,7 @@ LucidImporter = {};
 				if (hasTxt)
 				{
 					v.value = convertText(p[mainTxtFld]);
-					v.style += (isLastLblHTML? 'overflow=width;' : 
+					v.style += (isLastLblHTML? 'overflow=block;fontSize=' + defaultFontSize + ';' : 
 							getFontSize(p[mainTxtFld]) +
 							getFontColor(p[mainTxtFld]) + 
 							getFontStyle(p[mainTxtFld]) +
@@ -6395,7 +6591,7 @@ LucidImporter = {};
 					lane[j].value = convertText(p[curLane]);
 					lane[j].style +=
 									addAllStyles(lane[j].style, p, a, lane[j], isLastLblHTML) +
-									(isLastLblHTML? '' : 
+									(isLastLblHTML? 'fontSize=' + defaultFontSize + ';' : 
 									getFontSize(p[curLane]) +
 									getFontColor(p[curLane]) + 
 									getFontStyle(p[curLane]) +
@@ -6495,7 +6691,7 @@ LucidImporter = {};
 					r.value = convertText(p[curRow]);
 					r.style +=
 									addAllStyles(r.style, p, a, r, isLastLblHTML) +
-									(isLastLblHTML? '' : 
+									(isLastLblHTML? 'fontSize=' + defaultFontSize + ';' : 
 									getFontSize(p[curRow]) +
 									getFontColor(p[curRow]) + 
 									getFontStyle(p[curRow]) +
@@ -6533,7 +6729,7 @@ LucidImporter = {};
 					c.value = convertText(p[curCol]);
 					c.style +=
 									addAllStyles(c.style, p, a, c, isLastLblHTML) +
-									(isLastLblHTML? '' : 
+									(isLastLblHTML? 'fontSize=' + defaultFontSize + ';' : 
 									getFontSize(p[curCol]) +
 									getFontColor(p[curCol]) + 
 									getFontStyle(p[curCol]) +
@@ -7329,7 +7525,7 @@ LucidImporter = {};
 					v.insert(tab[i]);
 					tab[i].value = convertText(p["Tab_" + i]);
 					
-					tab[i].style += (isLastLblHTML? 'overflow=width;html=1;' :
+					tab[i].style += (isLastLblHTML? 'overflow=block;html=1;fontSize=' + defaultFontSize + ';' :
 									getFontSize(p["Tab_" + i]) +
 									getFontColor(p["Tab_" + i]) + 
 									getFontStyle(p["Tab_" + i]) +
@@ -7606,7 +7802,7 @@ LucidImporter = {};
 			case 'iOSBasicCell' :
 				v.value = convertText(p.text);
 				v.style += 'shape=partialRectangle;left=0;top=0;right=0;fillColor=#ffffff;strokeColor=#C8C7CC;spacing=0;align=left;spacingLeft=' + (p.SeparatorInset * scale) + ';';
-				v.style += (isLastLblHTML? '' : 
+				v.style += (isLastLblHTML? 'fontSize=' + defaultFontSize + ';' : 
 					getFontSize(p.text) +
 					getFontColor(p.text) + 
 					getFontStyle(p.text)) +
@@ -7653,7 +7849,7 @@ LucidImporter = {};
 			case 'iOSSubtitleCell' :
 				v.style += 'shape=partialRectangle;left=0;top=0;right=0;fillColor=#ffffff;strokeColor=#C8C7CC;align=left;spacing=0;verticalAlign=top;spacingLeft=' + (p.SeparatorInset * scale) + ';';
 				v.value = convertText(p.subtext);
-				v.style += (isLastLblHTML? '' : 
+				v.style += (isLastLblHTML? 'fontSize=' + defaultFontSize + ';' : 
 					getFontSize(p.subtext) +
 					getFontColor(p.subtext) + 
 					getFontStyle(p.subtext));
@@ -7663,8 +7859,8 @@ LucidImporter = {};
 				subtext.vertex = true;
 				v.insert(subtext);
 				subtext.value = convertText(p.text);
-				subtext.style += (isLastLblHTML? 'html=1;' : 
-					getFontSize(p.text) +
+				subtext.style += (isLastLblHTML? 'html=1;fontSize=' + defaultFontSize + ';': 
+					getFontSize(p.text) + 
 					getFontColor(p.text) + 
 					getFontStyle(p.text));
 
@@ -7708,8 +7904,8 @@ LucidImporter = {};
 			case 'iOSRightDetailCell' :
 				v.style += 'shape=partialRectangle;left=0;top=0;right=0;fillColor=#ffffff;strokeColor=#C8C7CC;align=left;spacing=0;verticalAlign=middle;spacingLeft=' + (p.SeparatorInset * scale) + ';';
 				v.value = convertText(p.subtext);
-				v.style += (isLastLblHTML? '' :
-					getFontSize(p.subtext) +
+				v.style += (isLastLblHTML? 'fontSize=' + defaultFontSize + ';' :
+					getFontSize(p.subtext) + 
 					getFontColor(p.subtext) + 
 					getFontStyle(p.subtext));
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
@@ -7765,8 +7961,8 @@ LucidImporter = {};
 				subtext.vertex = true;
 				v.insert(subtext);
 				subtext.value = convertText(p.text);
-				subtext.style += (isLastLblHTML? 'html=1;' :
-					getFontSize(p.text) +
+				subtext.style += (isLastLblHTML? 'html=1;fontSize=' + defaultFontSize + ';' :
+					getFontSize(p.text) + 
 					getFontColor(p.text) + 
 					getFontStyle(p.text));
 
@@ -7780,8 +7976,8 @@ LucidImporter = {};
 				text.vertex = true;
 				v.insert(text);
 				text.value = convertText(p.subtext);
-				text.style += (isLastLblHTML? 'html=1;' :
-					getFontSize(p.subtext) +
+				text.style += (isLastLblHTML? 'html=1;fontSize=' + defaultFontSize + ';' :
+					getFontSize(p.subtext) + 
 					getFontColor(p.subtext) + 
 					getFontStyle(p.subtext));
 
@@ -7789,8 +7985,8 @@ LucidImporter = {};
 				subtext.vertex = true;
 				v.insert(subtext);
 				subtext.value = convertText(p.text);
-				subtext.style += (isLastLblHTML? 'html=1;' :
-					getFontSize(p.text) +
+				subtext.style += (isLastLblHTML? 'html=1;fontSize=' + defaultFontSize + ';' :
+					getFontSize(p.text) + 
 					getFontColor(p.text) + 
 					getFontStyle(p.text));
 
@@ -7838,7 +8034,7 @@ LucidImporter = {};
 				text1.vertex = true;
 				v.insert(text1);
 				text1.value = convertText(p.text);
-				text1.style += (isLastLblHTML? 'html=1;' :
+				text1.style += (isLastLblHTML? 'html=1;fontSize=' + defaultFontSize + ';' :
 					getFontSize(p.text) +
 					getFontColor(p.text) + 
 					getFontStyle(p.text));
@@ -7847,7 +8043,7 @@ LucidImporter = {};
 				text2.vertex = true;
 				v.insert(text2);
 				text2.value = convertText(p["bottom-text"]);
-				text2.style += (isLastLblHTML? 'html=1;' :
+				text2.style += (isLastLblHTML? 'html=1;fontSize=' + defaultFontSize + ';' :
 					getFontSize(p["bottom-text"]) +
 					getFontColor(p["bottom-text"]) + 
 					getFontStyle(p["bottom-text"]));
@@ -7857,8 +8053,8 @@ LucidImporter = {};
 			case 'iOSTablePlainHeaderFooter' :
 				v.style += 'fillColor=#F7F7F7;strokeColor=none;align=left;spacingLeft=5;spacing=0;';
 				v.value = convertText(p.text);
-				v.style += (isLastLblHTML? '' :
-					getFontSize(p.text) +
+				v.style += (isLastLblHTML? 'fontSize=' + defaultFontSize + ';' :
+					getFontSize(p.text) + 
 					getFontColor(p.text) + 
 					getFontStyle(p.text));
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
@@ -8059,7 +8255,67 @@ LucidImporter = {};
 					getLabelStyle(p.Text, isLastLblHTML);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
 				break;
+			case 'UMLProvidedInterfaceBlock' :
+			case 'UMLProvidedInterfaceBlockV2' :
+				var rotation = getRotation(p, a, v);
+				p.Rotatio = null;
+				var allStyle = addAllStyles(v.style, p, a, v, isLastLblHTML);
+				
+				if (allStyle.indexOf(mxConstants.STYLE_STROKEWIDTH) == -1)
+				{
+					allStyle = mxConstants.STYLE_STROKEWIDTH + '=1;' + allStyle;
+				}
+				
+				v.style = 'group;dropTarget=0;' + rotation;
+				var circleW = w * 0.8;
+				var lineW = w - circleW;
+				var circle = new mxCell('', new mxGeometry(0.2, 0, circleW, h), 'shape=ellipse;' + allStyle);
+				circle.vertex = true;
+				circle.geometry.relative = true;
+				v.insert(circle);
+				var line = new mxCell('', new mxGeometry(0, 0.5, lineW, 1), 'line;' + allStyle);
+				line.geometry.relative = true;
+				line.vertex = true;
+				v.insert(line);
+				break;
 			case 'UMLComponentBoxBlock' :
+			case 'UMLComponentBoxBlockV2':
+				v.value = convertText(p);
+				v.style = 'html=1;dropTarget=0;' + addAllStyles(v.style, p, a, v, isLastLblHTML);
+				
+				var icon = new mxCell('', new mxGeometry(1, 0, 15, 15), 'shape=component;jettyWidth=8;jettyHeight=4;');
+				icon.geometry.relative = true;
+				icon.geometry.offset = new mxPoint(-20, 5);
+				icon.vertex = true;
+				v.insert(icon);
+				break;
+			case 'UMLAssemblyConnectorBlock':
+			case 'UMLAssemblyConnectorBlockV2':
+				var rotation = getRotation(p, a, v);
+				p.Rotatio = null;
+				var allStyle = addAllStyles(v.style, p, a, v, isLastLblHTML);
+				
+				if (allStyle.indexOf(mxConstants.STYLE_STROKEWIDTH) == -1)
+				{
+					allStyle = mxConstants.STYLE_STROKEWIDTH + '=1;' + allStyle;
+				}
+				
+				v.style = 'group;dropTarget=0;' + rotation;
+				var line1W = w * 0.225;
+				var line2W = w * 0.1;
+				var circleW = w - line1W - line2W;
+				var circle = new mxCell('', new mxGeometry(0.225, 0, circleW, h), 'shape=providedRequiredInterface;verticalLabelPosition=bottom;' + allStyle);
+				circle.vertex = true;
+				circle.geometry.relative = true;
+				v.insert(circle);
+				var line1 = new mxCell('', new mxGeometry(0, 0.5, line1W, 1), 'line;' + allStyle);
+				line1.geometry.relative = true;
+				line1.vertex = true;
+				v.insert(line1);
+				var line2 = new mxCell('', new mxGeometry(0.9, 0.5, line2W, 1), 'line;' + allStyle);
+				line2.geometry.relative = true;
+				line2.vertex = true;
+				v.insert(line2);
 				break;
 			case 'BPMNActivity' :
 				v.value = convertText(p.Text);
@@ -8390,7 +8646,7 @@ LucidImporter = {};
 
 				break;
 			case 'BPMNGateway' :
-				v.style += 'shape=mxgraph.bpmn.shape;perimeter=rhombusPerimeter;background=gateway;'; 
+				v.style += 'shape=mxgraph.bpmn.shape;perimeter=rhombusPerimeter;background=gateway;verticalLabelPosition=bottom;verticalAlign=top;'; 
 				
 				switch (p.bpmnGatewayType)
 				{
@@ -8421,7 +8677,8 @@ LucidImporter = {};
 				}
 				
 				v.style += addAllStyles(v.style, p, a, v);
-				
+				v.value = convertText(p.Text);
+				v.style += getLabelStyle(p, isLastLblHTML);
 				break;
 			case 'BPMNData' :
 				v.style += 'shape=note;size=14;'; 
@@ -8653,7 +8910,7 @@ LucidImporter = {};
 							cell.value = convertText(cellLbl);
 							cell.style +=
 								addAllStyles(cell.style, p, a, cell, isLastLblHTML) +
-							  (isLastLblHTML? '' : 
+							  (isLastLblHTML? 'fontSize=' + defaultFontSize + ';' : 
 								getFontSize(cellLbl) +
 								getFontColor(cellLbl) + 
 								getFontStyle(cellLbl) +
@@ -10114,7 +10371,6 @@ LucidImporter = {};
 							v.insert(item1);
 							item1.value = convertText(p.PoweredText);
 							item1.style += (isLastLblHTML? '' : 
-								'fontSize=6;' + 
 								getFontColor(p.PoweredText) + 
 								getFontStyle(p.PoweredText) +
 								getTextAlignment(p.PoweredText) + 
@@ -10123,6 +10379,7 @@ LucidImporter = {};
 								getTextBottomSpacing(p.PoweredText) + 
 								getTextGlobalSpacing(p.PoweredText)
 								) +
+								'fontSize=6;' + 
 								getTextVerticalAlignment(p.PoweredText);
 							item1.style += addAllStyles(item1.style, p, a, item1, isLastLblHTML);
 						}
@@ -10211,7 +10468,7 @@ LucidImporter = {};
 			case 'UI2WindowBlock' :
 				v.value = convertText(p.Title);
 				v.style += 'shape=mxgraph.mockup.containers.window;mainText=;align=center;verticalAlign=top;spacing=5;' +
-					(isLastLblHTML? '' :	
+					(isLastLblHTML? 'fontSize=' + defaultFontSize + ';' :	
 					getFontSize(p.Title) +
 					getFontColor(p.Title) + 
 					getFontStyle(p.Title));
@@ -11313,7 +11570,7 @@ LucidImporter = {};
 					}
 					
 					v.value = convertText(p.Title);
-					v.style += 'swimlane;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
+					v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
 						'startSize=' + th + ';' +
 						getLabelStyle(p.Title, isLastLblHTML);
 					v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
@@ -11391,7 +11648,7 @@ LucidImporter = {};
 				}
 				
 				v.value = convertText(p.Name);
-				v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;' + st +
+				v.style += 'swimlane;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;' + st +
 					'startSize=' + th + ';' +
 					getLabelStyle(p.Name, isLastLblHTML);
 				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
@@ -11909,16 +12166,22 @@ LucidImporter = {};
 					{
 						var dd = drawData[i];
 						var path = dd.a;
-						var sw = dd.w == 'prop'? strokeWidth : dd.w;
-						var sc = dd.s == 'prop'? strokeColor : dd.s;
-						var fc = dd.f == 'prop'? fillColor : dd.f;
+						var sw = (dd.w == 'prop' || dd.w == null? strokeWidth : dd.w) / Math.min(w, h) * scale; //TODO Stroke width caclulationn needs review
+						var sc = dd.s == 'prop' || dd.s == null? strokeColor : dd.s;
+						var fc = dd.f == 'prop' || dd.f == null? fillColor : dd.f;
+						
+						if (typeof fc == 'object')
+						{
+							fc = Array.isArray(fc.cs)? fc.cs[0].c : fillColor; //Approximation TODO Handle it
+						}
 						
 						svg += '<path d="' + path + '" fill="' + fc + '" stroke="' + sc + '" stroke-width="' + sw + '"/>';
 					}
 					
 					svg += '</svg>';
+
 					v.style = 'shape=image;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;' +
-						'verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,' + ((window.btoa) ? btoa(svg) : Base64.encode(svg, true));
+						'verticalAlign=top;aspect=fixed;imageAspect=0;image=data:image/svg+xml,' + ((window.btoa) ? btoa(svg) : Base64.encode(svg, true)) + ';';
 				}
 				catch(e){}
 				break;
@@ -12088,7 +12351,10 @@ LucidImporter = {};
 							//Add stencil styles
 							cell.style += addAllStyles(cell.style, shape, a, cell, isLastLblHTML);
 							//Add other styles from parent
+							var fc = p.FillColor, lc = p.LineColor, lw = p.LineWidth;
+							p.FillColor = null; p.LineColor = null; p.LineWidth = null;
 							cell.style += addAllStyles(cell.style, p, a, cell, isLastLblHTML);
+							p.FillColor = fc; p.LineColor = lc; p.LineWidth = lw;
 							cell.vertex = true;
 							cell.geometry.relative = true;
 							v.insert(cell);
@@ -12106,13 +12372,16 @@ LucidImporter = {};
 							{
 								var lbl = new mxCell(txt, new mxGeometry(0, 0, w, h), 'strokeColor=none;fillColor=none;overflow=visible;');
 								p.Rotation = 0; //Disable rotation of the parent since it is captured in the srencil below
+								lbl.style += addAllStyles(lbl.style, lblObj, a, lbl, isLastLblHTML);
 								lbl.style += addAllStyles(lbl.style, p, a, lbl, isLastLblHTML);
 								p.Rotation = rotation;
 								
 								if (stencil.text != null && stencil.text['t' + index] != null)
 								{
 									var gTxtObj = stencil.text['t' + index];
-									gTxtObj.Rotation = rotation + gTxtObj.rotation;
+									gTxtObj.Rotation = rotation + (gTxtObj.rotation? gTxtObj.rotation : 0)
+										+ (p['t' + index + '_TRotation']? p['t' + index + '_TRotation'] : 0)
+										+ (p['t' + index + '_TAngle']? p['t' + index + '_TAngle'] : 0);
 									lbl.style += addAllStyles(lbl.style, gTxtObj, a, lbl, isLastLblHTML);
 									var lblGeo = lbl.geometry;
 									
@@ -12131,6 +12400,23 @@ LucidImporter = {};
 									if (gTxtObj.y)
 									{
 										lblGeo.y = gTxtObj.y / stencil.h;
+									}
+									
+									if (gTxtObj.fw)
+									{
+										lblGeo.width *= gTxtObj.fw * scale / w;
+									}
+									if (gTxtObj.fh)
+									{
+										lblGeo.height *= gTxtObj.fh * scale / h;
+									}
+									if (gTxtObj.fx)
+									{
+										lblGeo.x = (gTxtObj.fx > 0? 1 : 0) + gTxtObj.fx * scale / w;
+									}
+									if (gTxtObj.fy)
+									{
+										lblGeo.y = (gTxtObj.fy > 0? 1 : 0) + gTxtObj.fy * scale / h;
 									}
 								}
 								
@@ -12156,7 +12442,19 @@ LucidImporter = {};
 				{
 					console.log('Freehand error', e);
 				}
-				break;
+			break;
+			case 'RightArrowBlock':
+				var arrowSize = p.Head * h / w;
+				v.style = 'shape=singleArrow;arrowWidth=' + (1 - p.Notch * 2) + ';arrowSize=' + arrowSize;
+				v.value = convertText(p);
+				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
+			break;
+			case 'DoubleArrowBlock':
+				var arrowSize = p.Head * h / w;
+				v.style = 'shape=doubleArrow;arrowWidth=' + (1 - p.Notch * 2) + ';arrowSize=' + arrowSize;
+				v.value = convertText(p);
+				v.style += addAllStyles(v.style, p, a, v, isLastLblHTML);
+			break;
 		}
 
 		if (v.style && v.style.indexOf('html') < 0)
@@ -12164,6 +12462,22 @@ LucidImporter = {};
 			v.style += 'html=1;';
 		}
 		
+		if (p.Title && p.Text)
+		{
+			try
+			{
+				var geo = v.geometry;
+				var title = new mxCell(convertText(p.Title), new mxGeometry(0, geo.height,geo.width, 10), 'strokeColor=none;fillColor=none;');
+				title.vertex = true;
+				v.insert(title);
+				v.style += getLabelStyle(p.Title, isLastLblHTML);
+			}
+			catch(e)
+			{
+				console.log(e);
+			}
+		}
+				
 		handleTextRotation(v, p);
 		
 	    return v;
@@ -12171,11 +12485,11 @@ LucidImporter = {};
 	
 	function handleTextRotation(v, p)
 	{
-		if (p.Text_TRotation)
+		if (p.Text_TRotation || p.TextRotation)
 		{
 			try
 			{
-				var deg = mxUtils.toDegree(p.Text_TRotation);
+				var deg = mxUtils.toDegree(p.Text_TRotation) +  mxUtils.toDegree(p.TextRotation);
 				
 				if (deg != 0 && v.value)
 				{

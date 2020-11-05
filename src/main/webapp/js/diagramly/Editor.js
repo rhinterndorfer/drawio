@@ -27,12 +27,12 @@
 	 * Known file types.
 	 */
 	Editor.prototype.diagramFileTypes = [
-		{description: 'diagramXmlDesc', extension: 'drawio'},
-		{description: 'diagramPngDesc', extension: 'png'},
-		{description: 'diagramSvgDesc', extension: 'svg'},
-		{description: 'diagramHtmlDesc', extension: 'html'},
-		{description: 'diagramXmlDesc', extension: 'xml'}];
-	
+		{description: 'diagramXmlDesc', extension: 'drawio', mimeType: 'text/xml'},
+		{description: 'diagramPngDesc', extension: 'png', mimeType: 'image/png'},
+		{description: 'diagramSvgDesc', extension: 'svg', mimeType: 'image/svg'},
+		{description: 'diagramHtmlDesc', extension: 'html', mimeType: 'text/html'},
+		{description: 'diagramXmlDesc', extension: 'xml', mimeType: 'text/xml'}];
+
 	/**
 	 * Known file types.
 	 */
@@ -207,6 +207,14 @@
 	 * Specifies if custom properties should be enabled.
 	 */
 	Editor.enableCustomProperties = true;
+	
+	/**
+	 * Specifies if custom properties should be enabled.
+	 */
+	Editor.enableServiceWorker = urlParams['pwa'] != '0' &&
+		'serviceWorker' in navigator && (urlParams['offline'] == '1' ||
+		/.*\.diagrams\.net$/.test(window.location.hostname) ||
+		/.*\.draw\.io$/.test(window.location.hostname));
 
 	/**
 	 * Specifies if XML files should be compressed. Default is true.
@@ -377,7 +385,8 @@
         {name: 'fillOpacity', dispName: 'Fill Opacity', type: 'int', min: 0, max: 100, defVal: 100},
         {name: 'strokeOpacity', dispName: 'Stroke Opacity', type: 'int', min: 0, max: 100, defVal: 100},
         {name: 'overflow', dispName: 'Text Overflow', defVal: 'visible', type: 'enum',
-        	enumList: [{val: 'visible', dispName: 'Visible'}, {val: 'hidden', dispName: 'Hidden'}, {val: 'fill', dispName: 'Fill'}, {val: 'width', dispName: 'Width'}]
+        	enumList: [{val: 'visible', dispName: 'Visible'}, {val: 'hidden', dispName: 'Hidden'}, {val: 'block', dispName: 'Block'},
+        		{val: 'fill', dispName: 'Fill'}, {val: 'width', dispName: 'Width'}]
         },
         {name: 'noLabel', dispName: 'Hide Label', type: 'bool', defVal: false},
         {name: 'labelPadding', dispName: 'Label Padding', type: 'float', defVal: 0},
@@ -512,6 +521,11 @@
 		'## placeholders that are replaced once.\n' +
 		'#\n' +
 		'# styles: -\n' +
+		'#\n' +
+		'## JSON for variables in styles of the form {"name": "value", "name": "value"} where name is a string\n' +
+		'## that will replace a placeholder in a style.\n' +
+		'#\n' +
+		'# vars: -\n' +
 		'#\n' +
 		'## Optional column name that contains a reference to a named label in labels.\n' +
 		'## Default is the current label.\n' +
@@ -829,7 +843,7 @@
 			}
 			else
 			{
-				style.fill == '';
+				style.fill = '';
 			}
 			
 			// Applies cell style
@@ -1920,8 +1934,9 @@
 	 * Mathjax output ignores CSS transforms in Safari (lightbox and normal mode).
 	 * Check the following test case on page 2 before enabling this in production:
 	 * https://devhost.jgraph.com/git/drawio/etc/embed/sf-math-fo-clipping.html?dev=1
+	 * UPDATE: Fixed via position:static CSS override in initMath.
 	 */
-	Editor.prototype.useForeignObjectForMath = !mxClient.IS_SF;
+	Editor.prototype.useForeignObjectForMath = true;
 
 	/**
 	 * Executes the first step for connecting to Google Drive.
@@ -2176,7 +2191,7 @@
 	{
 		src = (src != null) ? src : DRAW_MATH_URL + '/MathJax.js';
 		Editor.mathJaxQueue = [];
-		
+
 		Editor.doMathJaxRender = function(container)
 		{
 			window.setTimeout(function()
@@ -2280,10 +2295,28 @@
 		
 		if (tags != null && tags.length > 0)
 		{
-			var script = document.createElement('script');
-			script.type = 'text/javascript';
-			script.src = src;
-			tags[0].parentNode.appendChild(script);
+			var s = document.createElement('script');
+			s.setAttribute('type', 'text/javascript');
+			s.setAttribute('src', src);
+			
+			tags[0].parentNode.appendChild(s);
+		}
+		
+		// Overrides position relative for block elements to fix
+		// zoomed math clipping in Webkit (drawio/issues/1213)
+		try
+		{
+			if (mxClient.IS_GC || mxClient.IS_SF)
+			{
+				var style = document.createElement('style')
+				style.type = 'text/css';
+				style.innerHTML = 'div.MathJax_SVG_Display { position: static; }';
+				document.getElementsByTagName('head')[0].appendChild(style);
+			}
+		}
+		catch (e)
+		{
+	       	// ignore
 		}
 	};
 
@@ -3039,6 +3072,20 @@
 	};
 
 	/**
+	 * Returns the maximum possible scale for the given canvas dimension and scale.
+	 * This will return the given scale or the maximum scale that can be used to
+	 * generate a valid image in the current browser.
+	 * 
+	 * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas
+	 */
+	Editor.prototype.getMaxCanvasScale = function(w, h, scale)
+	{
+		var max = (mxClient.IS_FF) ? 8192 : 16384;
+
+		return Math.min(scale, Math.min(max / w, max / h));
+	};
+	
+	/**
 	 *
 	 */
 	Editor.prototype.exportToCanvas = function(callback, width, imageCache, background, error, limitHeight,
@@ -3067,7 +3114,7 @@
 			// Handles special case where background is null but transparent is false
 			if (bg == null && transparentBackground == false)
 			{
-				bg = (keepTheme) ? this.graph.defaultPageBackgroundColor : '#ffffff';;
+				bg = (keepTheme) ? this.graph.defaultPageBackgroundColor : '#ffffff';
 			}
 			
 			this.convertImages(graph.getSvg(null, null, border, noCrop, null, ignoreSelection,
@@ -3091,6 +3138,7 @@
 								scale = (!limitHeight) ? width / w : Math.min(1, Math.min((width * 3) / (h * 4), width / w));
 							}
 							
+							scale = this.getMaxCanvasScale(w, h, scale);
 							w = Math.ceil(scale * w);
 							h = Math.ceil(scale * h);
 							
@@ -3106,7 +3154,10 @@
 								ctx.fill();
 					   		}
 		
-						    ctx.scale(scale, scale);
+					   		if (scale != 1)
+					   		{
+					   			ctx.scale(scale, scale);
+					   		}
 	
 						    function drawImage()
 						    {
@@ -6966,7 +7017,15 @@
 					pv.writeHead = function(doc)
 					{
 						writeHead.apply(this, arguments);
-						
+												
+						// Fixes clipping for transformed math
+						if (mxClient.IS_GC || mxClient.IS_SF)
+						{
+							doc.writeln('<style type="text/css">');
+							doc.writeln('div.MathJax_SVG_Display { position: static; }');
+							doc.writeln('</style>');
+						}
+
 						// Fixes font weight for PDF export in Chrome
 						if (mxClient.IS_GC)
 						{
@@ -7455,3 +7514,4 @@
 
 	mxCodecRegistry.register(codec);
 })();
+
