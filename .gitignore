@@ -3,10 +3,4 @@ build
 classes
 node_modules
 .vscode/settings.json
-src/main/webapp/js/stencils.min.js
-src/main/webapp/js/viewer-static.min.js
-src/main/webapp/js/viewer.min.js
-src/main/webapp/js/app.min.js
-src/main/webapp/js/shapes.min.js
-src/main/webapp/js/extensions.min.js
-src/main/webapp/js/orgchart.min.js
+src/main/webapp/templates/custom

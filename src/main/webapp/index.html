@@ -280,18 +280,6 @@
 			}
 			
 			mxscript(drawDevUrl + 'js/PostConfig.js');
-
-			// Electron
-			if (mxIsElectron)
-			{
-				mxscript('js/PreConfig.js');
-				mxscript('js/diagramly/DesktopLibrary.js');
-				mxscript('js/diagramly/ElectronApp.js');
-				mxscript('js/extensions.min.js');
-				mxscript('js/stencils.min.js');
-				mxscript('js/PostConfig.js');
-			}
-
 		}
 		else
 		{
@@ -348,6 +336,7 @@
 					loadAppJS();
 				}
 			})();
+		}
 
 		// Adds basic error handling
 		window.onerror = function()

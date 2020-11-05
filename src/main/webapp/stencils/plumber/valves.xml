@@ -16,4 +16,29 @@
         <fillstroke/>
     </foreground>
 </shape>
+<shape aspect="variable" h="40" w="40" name="valveaddon" strokewidth="inherit" >
+    <foreground>
+        <path>
+            <move x="0" y="10"/>
+            <line x="20" y="20"/>
+            <line x="0" y="30"/>
+            <line x="0" y="10"/>
+            <close/>
+        </path>
+        <fillstroke/>
+    </foreground>
+</shape>
+<shape aspect="variable" h="40" w="40" name="valve" strokewidth="inherit" >
+    <foreground>
+        <path>
+            <move x="0" y="10"/>
+            <line x="40" y="30"/>
+            <line x="40" y="10"/>
+            <line x="0" y="30"/>
+            <line x="0" y="10"/>
+            <close/>
+        </path>
+        <fillstroke/>
+    </foreground>
+</shape>
 </shapes>

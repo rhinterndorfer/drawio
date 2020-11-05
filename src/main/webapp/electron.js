@@ -718,12 +718,6 @@ app.on('ready', e =>
 	const menuBar = menu.buildFromTemplate(template)
 	menu.setApplicationMenu(menuBar)
 
-	autoUpdater.setFeedURL({
-		provider: 'github',
-		repo: 'drawio-desktop',
-		owner: 'rhinterndorfer'
-	})
-	
 	if (!disableUpdate && !store.get('dontCheckUpdates'))
 	{
 		autoUpdater.checkForUpdates()

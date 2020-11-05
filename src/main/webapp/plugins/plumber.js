@@ -340,14 +340,17 @@ Draw.loadPlugin(function (ui) {
 			content.appendChild(ui.sidebar.createVertexTemplateEntry('connectable=0;verticalLabelPosition=bottom;align=top;html=1;verticalAlign=top;pointerEvents=1;dashed=0;shape=mxgraph.pid2valves.valve;valveType=ball;',
 				defaultWidth, defaultHeight, null, 'Absperrhahn', null, 'plumber ventil absperr hahn')(content));
 
-			content.appendChild(ui.sidebar.createVertexTemplateEntry('connectable=0;verticalLabelPosition=bottom;align=top;html=1;verticalAlign=top;pointerEvents=1;dashed=0;shape=mxgraph.pid2valves.valve;valveType=gate;',
-				defaultWidth, defaultHeight, null, 'Absperrventil', null, 'plumber ventil absperr')(content));
+			content.appendChild(ui.sidebar.createVertexTemplateEntry('connectable=0;verticalLabelPosition=bottom;align=top;html=1;verticalAlign=top;pointerEvents=1;dashed=0;shape=mxgraph.plumber.valves.valve;',
+				defaultWidth, defaultWidth, null, 'Absperrventil', null, 'plumber ventil absperr ')(content));
+			
+			content.appendChild(ui.sidebar.createVertexTemplateEntry('connectable=0;verticalLabelPosition=bottom;align=top;html=1;verticalAlign=top;pointerEvents=1;dashed=0;shape=mxgraph.plumber.valves.valveaddon;',
+				defaultWidth, defaultWidth, null, 'Absperrventil Erweiterung', null, 'plumber ventil absperr ')(content));
 
 			content.appendChild(ui.sidebar.createVertexTemplateEntry('connectable=0;verticalLabelPosition=bottom;align=top;html=1;verticalAlign=top;pointerEvents=1;dashed=0;shape=mxgraph.plumber.valves.threewayvalve;',
 				defaultWidth, defaultWidth, null, 'Dreiwegeventil', null, 'plumber ventil drei 3 ')(content));
 
 			content.appendChild(ui.sidebar.createVertexTemplateEntry('connectable=0;verticalLabelPosition=bottom;align=top;html=1;verticalAlign=top;pointerEvents=1;dashed=0;shape=mxgraph.plumber.misc.mount;',
-				defaultWidth / 2, defaultWidth / 2, null, 'Befestigung', null, 'plumber misc mount ')(content));
+				defaultWidth / 2, defaultWidth / 2, null, 'Befestigung', null, 'plumber befestigung ')(content));
 
 
 
@@ -380,114 +383,91 @@ Draw.loadPlugin(function (ui) {
 
 
 /**
-		 * Turns the given cells and returns the changed cells.
-		 */
-		Graph.prototype.turnShapes = function(cells, backwards)
+ * Turns the given cells and returns the changed cells.
+ */
+Graph.prototype.turnShapes = function(cells, backwards)
+{
+	var model = this.getModel();
+	var select = [];
+	
+	model.beginUpdate();
+	try
+	{
+		for (var i = 0; i < cells.length; i++)
 		{
-			var model = this.getModel();
-			var select = [];
+			var cell = cells[i];
 			
-			model.beginUpdate();
-			try
+			if (model.isEdge(cell))
 			{
-				for (var i = 0; i < cells.length; i++)
+				var src = model.getTerminal(cell, true);
+				var trg = model.getTerminal(cell, false);
+				
+				model.setTerminal(cell, trg, true);
+				model.setTerminal(cell, src, false);
+				
+				var geo = model.getGeometry(cell);
+				
+				if (geo != null)
 				{
-					var cell = cells[i];
+					geo = geo.clone();
 					
-					if (model.isEdge(cell))
+					if (geo.points != null)
 					{
-						var src = model.getTerminal(cell, true);
-						var trg = model.getTerminal(cell, false);
-						
-						model.setTerminal(cell, trg, true);
-						model.setTerminal(cell, src, false);
-						
-						var geo = model.getGeometry(cell);
-						
-						if (geo != null)
-						{
-							geo = geo.clone();
-							
-							if (geo.points != null)
-							{
-								geo.points.reverse();
-							}
-							
-							var sp = geo.getTerminalPoint(true);
-							var tp = geo.getTerminalPoint(false)
-							
-							geo.setTerminalPoint(sp, false);
-							geo.setTerminalPoint(tp, true);
-							model.setGeometry(cell, geo);
-							
-							// Inverts constraints
-							var edgeState = this.view.getState(cell);
-							var sourceState = this.view.getState(src);
-							var targetState = this.view.getState(trg);
-							
-							if (edgeState != null)
-							{
-								var sc = (sourceState != null) ? this.getConnectionConstraint(edgeState, sourceState, true) : null;
-								var tc = (targetState != null) ? this.getConnectionConstraint(edgeState, targetState, false) : null;
-								
-								this.setConnectionConstraint(cell, src, true, tc);
-								this.setConnectionConstraint(cell, trg, false, sc);
-							}
-		
-							select.push(cell);
-						}
+						geo.points.reverse();
 					}
-					else if (model.isVertex(cell))
+					
+					var sp = geo.getTerminalPoint(true);
+					var tp = geo.getTerminalPoint(false)
+					
+					geo.setTerminalPoint(sp, false);
+					geo.setTerminalPoint(tp, true);
+					model.setGeometry(cell, geo);
+					
+					// Inverts constraints
+					var edgeState = this.view.getState(cell);
+					var sourceState = this.view.getState(src);
+					var targetState = this.view.getState(trg);
+					
+					if (edgeState != null)
 					{
-						var geo = this.getCellGeometry(cell);
-			
-						if (geo != null)
-						{
-							// Rotates the size and position in the geometry
-							if (!this.isTable(cell) && !this.isTableRow(cell) &&
-								!this.isTableCell(cell))
-							{
-								geo = geo.clone();
-								geo.x += geo.width / 2 - geo.height / 2;
-								geo.y += geo.height / 2 - geo.width / 2;
-								var tmp = geo.width;
-								geo.width = geo.height;
-								geo.height = tmp;
-								model.setGeometry(cell, geo);
-							}
-							
-							// Reads the current direction and advances by 90 degrees
-							var state = this.view.getState(cell);
-							
-							if (state != null)
-							{
-								var degrees = [0,30.96,90,149.04,180,210.96,270,329.04];
-								var rotation = mxUtils.getValue(state.style, mxConstants.STYLE_ROTATION,
-									0);
-								this.setCellStyles(mxConstants.STYLE_ROTATION,
-									degrees[mxUtils.mod(mxUtils.indexOf(degrees, rotation) +
-										((backwards) ? -1 : 1), degrees.length)], [cell]);
+						var sc = (sourceState != null) ? this.getConnectionConstraint(edgeState, sourceState, true) : null;
+						var tc = (targetState != null) ? this.getConnectionConstraint(edgeState, targetState, false) : null;
+						
+						this.setConnectionConstraint(cell, src, true, tc);
+						this.setConnectionConstraint(cell, trg, false, sc);
+					}
 
-								/*
-								var dirs = [mxConstants.DIRECTION_EAST, mxConstants.DIRECTION_SOUTH,
-									mxConstants.DIRECTION_WEST, mxConstants.DIRECTION_NORTH];
-								var dir = mxUtils.getValue(state.style, mxConstants.STYLE_DIRECTION,
-									mxConstants.DIRECTION_EAST);
-								this.setCellStyles(mxConstants.STYLE_DIRECTION,
-									dirs[mxUtils.mod(mxUtils.indexOf(dirs, dir) +
-									((backwards) ? -1 : 1), dirs.length)], [cell]);
-								*/
-							}
-		
-							select.push(cell);
-						}
-					}
+					select.push(cell);
 				}
 			}
-			finally
+			else if (model.isVertex(cell))
 			{
-				model.endUpdate();
+				var geo = this.getCellGeometry(cell);
+	
+				if (geo != null)
+				{
+					// Reads the current rotation and advances by defined steps (+isometric)
+					var state = this.view.getState(cell);
+					
+					if (state != null)
+					{
+						var degrees = [0,30.96,90,149.04,180,210.96,270,329.04];
+						var rotation = mxUtils.getValue(state.style, mxConstants.STYLE_ROTATION,
+							0);
+						this.setCellStyles(mxConstants.STYLE_ROTATION,
+							degrees[mxUtils.mod(mxUtils.indexOf(degrees, rotation) +
+								((backwards) ? -1 : 1), degrees.length)], [cell]);
+					}
+
+					select.push(cell);
+				}
 			}
-			
-			return select;
-		};
+		}
+	}
+	finally
+	{
+		model.endUpdate();
+	}
+	
+	return select;
+};
